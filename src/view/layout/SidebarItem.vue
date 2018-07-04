@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import '@/common/font/iconfont.css'
 export default {
   name: 'SidebarItem',
   props: {
@@ -42,5 +43,5 @@ export default {
 </script>
 
 <style lang="scss">
-// @import "~common/font/iconfont.css";
+
 </style>
