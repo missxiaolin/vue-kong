@@ -6,6 +6,7 @@ const _import = require('./_import_' + process.env.NODE_ENV)
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '*',
@@ -16,6 +17,17 @@ export default new Router({
       name: '404',
       component: _import('errorPage/404'),
       hidden: true
+    }, {
+      path: '/error',
+      name: '401',
+      redirect: '/error/401',
+      hidden: true,
+      children: [
+        {
+          path: '401',
+          component: _import('errorPage/401')
+        }
+      ]
     }
   ]
 })
