@@ -10,4 +10,3 @@
     </svg>
   </a>
 </template>
-
