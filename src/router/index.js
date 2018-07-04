@@ -41,6 +41,19 @@ export const asyncRouterMap = [
         component: _import('dashboard/index')
       }
     ]
+  }, {
+    path: '/introduction',
+    component: layout,
+    redirect: '/introduction/index',
+    icon: 'icon-ren',
+    noDropdown: true,
+    children: [
+      {
+        path: 'index',
+        component: _import('introduction/index'),
+        name: '简述'
+      }
+    ]
   }
 ]
 
