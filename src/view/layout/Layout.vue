@@ -1,5 +1,6 @@
 <template>
   <div class="app-wrapper">
+    <sidebar class="sidebar-container"></sidebar>
     <div class="main-container">
       <app-main></app-main>
 		</div>
@@ -8,9 +9,11 @@
 
 <script>
 import AppMain from './AppMain'
+import Sidebar from './Sidebar'
 export default {
   name: 'layout',
   components: {
+    Sidebar,
     AppMain
   }
 }
@@ -34,7 +37,7 @@ export default {
   }
   .sidebar-container {
     transition: width 0.28s ease-out;
-    width: 180px;
+    width: 188px;
     height: 100%;
     position: fixed;
     top: 0;

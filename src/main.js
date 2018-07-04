@@ -5,6 +5,10 @@ import App from './App'
 import router from './router'
 
 import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+
+// eslint-disable-next-line
+import store from './store' // vuex
 
 Vue.config.productionTip = false
 
@@ -14,6 +18,7 @@ Vue.use(ElementUI)
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
