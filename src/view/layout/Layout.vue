@@ -1,20 +1,31 @@
 <template>
-  <div class="app-wrapper">
+  <div class="app-wrapper" :class="{hideSidebar:opened}">
     <sidebar class="sidebar-container"></sidebar>
-    <div class="main-container">
+		<div class="main-container">
+      <navbar></navbar>
       <app-main></app-main>
 		</div>
 	</div>
 </template>
 
 <script>
-import AppMain from './AppMain'
+import { mapGetters } from 'vuex'
+import Navbar from './Navbar'
 import Sidebar from './Sidebar'
+import AppMain from './AppMain'
+
 export default {
   name: 'layout',
   components: {
+    Navbar,
     Sidebar,
     AppMain
+  },
+  computed: {
+    ...mapGetters(['opened']),
+    isCollapse () {
+      return this.opened
+    }
   }
 }
 </script>

@@ -28,11 +28,12 @@ export default {
       let that = this
       setTimeout(() => {
         that.isOpened = !this.opened
-      }, 200)
+      }, 10)
     }
   },
   computed: {
     ...mapGetters(['opened'])
+
   },
   watch: {
     opened () {
