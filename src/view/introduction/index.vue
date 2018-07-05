@@ -1,5 +1,5 @@
 <template>
-<div class="app-container">
+  <div class="app-container">
     简述
-</div>
+  </div>
 </template>

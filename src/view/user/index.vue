@@ -8,7 +8,7 @@
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <el-button size="mini" type="danger" @click="handleDisable(scope.$index, scope.row)">禁用</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -42,15 +42,19 @@ export default {
       let params = {
         page: this.page
       }
-      let data = await userLists(params)
+      let response = await userLists(params)
       this.loading = true
-      if (data.code == ERR_OK) {
-        this.userData = data.data.data
+      if (response.data.code == ERR_OK) {
+        this.userData = response.data.data.items
         this.loading = false
       } else {
-        Message(data.message)
+        Message(response.data.message)
       }
-    }
+    },
+    // 编辑
+    handleEdit () { },
+    // 禁用
+    handleDisable () { }
   }
 }
 </script>

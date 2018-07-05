@@ -1,12 +1,12 @@
 <template>
-	<div class="dashboard-editor-container">
+  <div class="dashboard-editor-container">
     <div class="clearfix">
       <pan-thumb style="float: left" :image="avatar">
-        <span class="pan-info-roles">xiaobeila</span>
+        <span class="pan-info-roles">admin</span>
       </pan-thumb>
       <github></github>
       <div class="info-container">
-        <span class="display_name">xiaobeila</span>
+        <span class="display_name">欢迎光临 · 后台管理系统</span>
         <span style='font-size:20px;padding-top:20px;display:inline-block;'>admin</span>
       </div>
     </div>
