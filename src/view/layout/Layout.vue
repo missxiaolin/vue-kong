@@ -37,7 +37,7 @@ export default {
   }
   .sidebar-container {
     transition: width 0.28s ease-out;
-    width: 188px;
+    width: 180px;
     height: 100%;
     position: fixed;
     top: 0;

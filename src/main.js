@@ -8,7 +8,10 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 // eslint-disable-next-line
-import store from './store' // vuex
+import store from './store'
+
+// 权限
+import './permission' // vuex
 
 Vue.config.productionTip = false
 
