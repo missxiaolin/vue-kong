@@ -42,6 +42,11 @@ export const asyncRouterMap = [
       }
     ]
   }, {
+    path: '/login', // 登录
+    name: 'login',
+    hidden: true,
+    component: _import('login/login')
+  }, {
     path: '/introduction',
     component: layout,
     redirect: '/introduction/index',
