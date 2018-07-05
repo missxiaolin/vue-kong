@@ -1,13 +1,17 @@
 <template>
-    <el-menu background-color="#324157" text-color="#bfcbd9" mode="vertical" theme="dark" unique-opened :default-active="$route.path" :collapse="opened">
-      <sidebar-item :routes='permission_routers'></sidebar-item>
-    </el-menu>
+  <el-menu background-color="#324157" text-color="#bfcbd9" mode="vertical" theme="dark" unique-opened :default-active="$route.path" :collapse="opened">
+    <sidebar-item :routes='permission_routers'></sidebar-item>
+  </el-menu>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {
+  mapGetters
+} from 'vuex'
 import SidebarItem from './SidebarItem'
-import { asyncRouterMap } from 'router'
+import {
+  asyncRouterMap
+} from 'router'
 
 export default {
   data () {
@@ -33,7 +37,6 @@ export default {
   },
   computed: {
     ...mapGetters(['opened'])
-
   },
   watch: {
     opened () {

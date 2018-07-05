@@ -1,5 +1,5 @@
 <template>
-<div class="dashboard-editor-container">
+<div class="app-container">
     简述
 </div>
 </template>

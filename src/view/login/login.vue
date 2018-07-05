@@ -1,14 +1,12 @@
 <template>
   <div class="login-container">
-    <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px"
-      class="card-box login-form">
+    <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px" class="card-box login-form">
       <h3 class="title">登录</h3>
-      <el-form-item prop="username">
-        <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="username" />
+      <el-form-item prop="mobile">
+        <el-input name="mobile" type="text" v-model="loginForm.mobile" autoComplete="on" placeholder="mobile" />
       </el-form-item>
       <el-form-item prop="password">
-        <el-input name="password" type="password" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on"
-          placeholder="password"></el-input>
+        <el-input name="password" type="password" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" placeholder="password"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
@@ -29,9 +27,11 @@ import { Message } from 'element-ui'
 export default {
   name: 'login',
   data () {
-    const validateUsername = (rule, value, callback) => {
+    const validateMobile = (rule, value, callback) => {
       if (!value) {
-        callback(new Error('请输入正确的用户名'))
+        callback(new Error('请输入正确的手机号'))
+      } else if (value.length < 11) {
+        callback(new Error('手机号不能小于11位'))
       } else {
         callback()
       }
@@ -45,12 +45,12 @@ export default {
     }
     return {
       loginForm: {
-        username: '',
+        mobile: '',
         password: ''
       },
       loginRules: {
-        username: [
-          { required: true, trigger: 'blur', validator: validateUsername }
+        mobile: [
+          { required: true, trigger: 'blur', validator: validateMobile }
         ],
         password: [{ required: true, trigger: 'blur', validator: validatePass }]
       },

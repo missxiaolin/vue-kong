@@ -1,30 +1,32 @@
 <template>
-	<el-menu background-color="#eef1f6" class="navbar" mode="horizontal">
+  <el-menu background-color="#eef1f6" class="navbar" mode="horizontal">
     <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="opened"></hamburger>
     <levelbar></levelbar>
     <tabs-view></tabs-view>
     <screenfull class='screenfull'></screenfull>
     <el-dropdown class="avatar-container" trigger="click">
-			<div class="avatar-wrapper">
-				<img class="user-avatar" src="../../common/image/avatarImg.gif">
-				<i class="el-icon-caret-bottom"></i>
-			</div>
-			<el-dropdown-menu class="user-dropdown" slot="dropdown">
-				<router-link class='inlineBlock' to="/">
-					<el-dropdown-item>
-						首页
-					</el-dropdown-item>
-				</router-link>
-				<el-dropdown-item divided>
+      <div class="avatar-wrapper">
+        <img class="user-avatar" src="../../common/image/avatarImg.gif">
+        <i class="el-icon-caret-bottom"></i>
+      </div>
+      <el-dropdown-menu class="user-dropdown" slot="dropdown">
+        <router-link class='inlineBlock' to="/">
+          <el-dropdown-item>
+            首页
+          </el-dropdown-item>
+        </router-link>
+        <el-dropdown-item divided>
           <span @click="logout" style="display:block;">退出登录</span>
         </el-dropdown-item>
-			</el-dropdown-menu>
-		</el-dropdown>
+      </el-dropdown-menu>
+    </el-dropdown>
   </el-menu>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import {
+  mapGetters
+} from 'vuex'
 import Hamburger from 'base/Hamburger'
 import Levelbar from './Levelbar'
 import TabsView from './TabsView'
@@ -42,7 +44,7 @@ export default {
       this.$store.dispatch('ToggleSideBar')
     },
     // 退出登录操作
-    logout () {}
+    logout () { }
   },
   components: {
     Hamburger,

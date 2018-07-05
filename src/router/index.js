@@ -48,15 +48,30 @@ export const asyncRouterMap = [
     component: _import('login/login')
   }, {
     path: '/introduction',
+    name: '简述',
     component: layout,
     redirect: '/introduction/index',
     icon: 'icon-ren',
-    noDropdown: true,
+    noDropdown: false,
     children: [
       {
         path: 'index',
         component: _import('introduction/index'),
         name: '简述'
+      }
+    ]
+  }, {
+    path: '/user',
+    name: '用户中心',
+    component: layout,
+    redirect: '/user/index',
+    icon: 'icon-Excel',
+    noDropdown: false,
+    children: [
+      {
+        path: 'index',
+        component: _import('user/index'),
+        name: '用户列表'
       }
     ]
   }

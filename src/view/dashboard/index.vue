@@ -2,11 +2,11 @@
 	<div class="dashboard-editor-container">
     <div class="clearfix">
       <pan-thumb style="float: left" :image="avatar">
-        <span class="pan-info-roles">xiaolin</span>
+        <span class="pan-info-roles">xiaobeila</span>
       </pan-thumb>
       <github></github>
       <div class="info-container">
-        <span class="display_name">小林</span>
+        <span class="display_name">xiaobeila</span>
         <span style='font-size:20px;padding-top:20px;display:inline-block;'>admin</span>
       </div>
     </div>
