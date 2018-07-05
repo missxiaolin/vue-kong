@@ -54,16 +54,18 @@ export default {
     top: 0;
     bottom: 0;
     left: 0;
-    z-index: 2000;
+    z-index: 1000;
     overflow-y: auto;
     &::-webkit-scrollbar {
       display: none;
     }
   }
   .main-container {
+    position: relative;
     min-height: 100%;
     transition: margin-left 0.28s ease-out;
     margin-left: 180px;
+    z-index: 2000;
   }
 }
 </style>
