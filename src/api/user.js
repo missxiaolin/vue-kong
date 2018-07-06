@@ -11,3 +11,15 @@ export function userLists (query) {
     params: query
   })
 }
+
+/**
+ * 用户编辑
+ * @param {*} query
+ */
+export function userEdit (query) {
+  return fetch({
+    url: '/kong/user/add',
+    method: 'post',
+    data: query
+  })
+}
