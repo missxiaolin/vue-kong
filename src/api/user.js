@@ -23,3 +23,27 @@ export function userEdit (query) {
     data: query
   })
 }
+
+/**
+ * 用户查询
+ * @param {*} query
+ */
+export function userInfo (query) {
+  return fetch({
+    url: '/kong/user/info',
+    method: 'get',
+    params: query
+  })
+}
+
+/**
+ * 用户禁用、开启
+ * @param {*} query
+ */
+export function userStatus (query) {
+  return fetch({
+    url: '/kong/user/status',
+    method: 'post',
+    data: query
+  })
+}
