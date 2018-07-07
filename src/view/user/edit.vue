@@ -5,16 +5,10 @@
         <el-input v-model="ruleForm.name"></el-input>
       </el-form-item>
       <el-form-item label="手机号：" prop="mobile">
-        <el-input name="mobile" type="number" v-model="ruleForm.mobile" autoconplete="off" placeholder="手机号码"></el-input>
+        <el-input name="mobile" type="number" v-model="ruleForm.mobile" autoComplete="off" placeholder="手机号码"></el-input>
       </el-form-item>
       <el-form-item label="密码：" prop="password">
-        <el-input name="password" type="password" v-model="ruleForm.password" autoconplete="off" placeholder="密码"></el-input>
-      </el-form-item>
-      <el-form-item label="状态" prop="status">
-        <el-select v-model="ruleForm.status" placeholder="--请选择状态--">
-          <el-option label="正常" value="1"></el-option>
-          <el-option label="禁用" value="2"></el-option>
-        </el-select>
+        <el-input name="password" type="text" v-model="ruleForm.password" autoComplete="off" placeholder="密码" onfocus="this.type='password'"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
@@ -26,7 +20,8 @@
 
 <script>
 import {
-  userEdit
+  userEdit,
+  userInfo
 } from 'api/user'
 import {
   ERR_OK
@@ -60,20 +55,19 @@ export default {
           message: '长度在 3 到 8 个字符',
           trigger: 'blur'
         }
-        ],
-        status: {
-          required: true,
-          message: '请选择状态',
-          trigger: 'blur'
-        }
+        ]
       },
       ruleForm: {
         id: this.$route.params.id,
         name: '',
         mobile: '',
-        password: '',
-        status: ''
+        password: ''
       }
+    }
+  },
+  created () {
+    if (this.ruleForm.id != 0) {
+      this.userInfo()
     }
   },
   methods: {
@@ -100,6 +94,22 @@ export default {
       } else {
         Message(response.data.message)
       }
+    },
+    async userInfo () {
+      let self = this
+      let params = {
+        id: this.$route.params.id
+      }
+      await userInfo(params).then(function (response) {
+        if (response.data.code == ERR_OK) {
+          self.ruleForm.name = response.data.data.name
+          self.ruleForm.mobile = response.data.data.mobile
+          self.loading = false
+        } else {
+          Message(response.data.message)
+        }
+        self.loading = true
+      })
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
