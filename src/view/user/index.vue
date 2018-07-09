@@ -37,7 +37,7 @@
         </el-button>
       </el-row>
 
-      <el-table :data="userData" border style="width: 100%; margin-top: 30px;">
+      <el-table :data="userData.items" border style="width: 100%; margin-top: 30px;">
         <el-table-column prop="name" label="姓名" width="300"></el-table-column>
         <el-table-column prop="mobile" label="手机号"></el-table-column>
         <el-table-column prop="status" label="状态" :formatter="stateFormat"></el-table-column>
@@ -51,6 +51,9 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-row type="flex" justify="center" style="margin-top: 30px;">
+        <el-pagination background layout="prev, pager, next" :total="total" @current-change="handleCurrentChange" :current-page="page"></el-pagination>
+      </el-row>
     </div>
   </div>
 </template>
@@ -77,13 +80,16 @@ export default {
         status: '',
         mobile: '',
         create_start: '',
-        create_end: ''
+        create_end: '',
+        size: 1
       },
-      page: 1
+      page: 1,
+      total: 0, // table数据总条数
+      pagesize: 10
     }
   },
   created () {
-    this.userLists(this.searchForm)
+    this.userLists()
   },
   methods: {
     // 时间格式
@@ -98,18 +104,19 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.userLists(this.searchForm)
+          this.userLists()
         } else {
           console.log('error submit!!')
           return false
         }
       })
     },
-    async userLists (params) {
-      let response = await userLists(params)
+    async userLists () {
+      let response = await userLists(this.searchForm)
       this.loading = true
       if (response.data.code == ERR_OK) {
-        this.userData = response.data.data.items
+        this.userData = response.data.data
+        this.total = response.data.data.total * 10
         this.loading = false
       } else {
         Message(response.data.message)
@@ -136,11 +143,15 @@ export default {
       let response = await userStatus(params)
       this.loading = true
       if (response.data.code == ERR_OK) {
-        this.userData[index].status = !this.userData[index].status ? 1 : 0
+        this.userData.items[index].status = !this.userData.items[index].status ? 1 : 0
         this.loading = false
       } else {
         Message(response.data.message)
       }
+    },
+    handleCurrentChange: function (currentPage) {
+      let params = Object.assign(this.searchForm, { page: currentPage })
+      this.userLists(params)
     }
   }
 }

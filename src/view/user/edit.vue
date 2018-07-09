@@ -66,7 +66,7 @@ export default {
     }
   },
   created () {
-    if (this.id != 0) {
+    if (this.ruleForm.id != 0) {
       this.userInfo()
     }
   },
