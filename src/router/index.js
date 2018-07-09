@@ -66,6 +66,26 @@ export const asyncRouterMap = [
         hidden: true
       }
     ]
+  }, {
+    path: '/service',
+    name: '服务中心',
+    component: layout,
+    redirect: '/service/index',
+    icon: 'icon-Excel',
+    noDropdown: false,
+    children: [
+      {
+        path: 'index',
+        component: _import('service/index'),
+        name: '服务列表'
+      },
+      {
+        path: 'edit/:id',
+        component: _import('service/edit'),
+        name: '服务编辑',
+        hidden: true
+      }
+    ]
   },
   {
     path: '/introduction',

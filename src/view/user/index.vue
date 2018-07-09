@@ -32,9 +32,7 @@
       </el-form>
 
       <el-row style="margin-top: 30px;">
-        <el-button type="primary">
-          <router-link :to='{name:"用户编辑", params:{ id:0 }}'>新建用户</router-link>
-        </el-button>
+        <el-button type="primary" @click="handleEdit(0)">新建用户</el-button>
       </el-row>
 
       <el-table :data="userData.items" border style="width: 100%; margin-top: 30px;">
@@ -51,7 +49,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-row type="flex" justify="center" style="margin-top: 30px;">
+      <el-row type="flex" justify="center" style="margin-top: 30px;" v-if="total > 10">
         <el-pagination background layout="prev, pager, next" :total="total" @current-change="handleCurrentChange" :current-page="page"></el-pagination>
       </el-row>
     </div>
@@ -150,7 +148,9 @@ export default {
       }
     },
     handleCurrentChange: function (currentPage) {
-      let params = Object.assign(this.searchForm, { page: currentPage })
+      let params = Object.assign(this.searchForm, {
+        page: currentPage
+      })
       this.userLists(params)
     }
   }
