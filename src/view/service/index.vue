@@ -1,0 +1,112 @@
+<template>
+  <div class="app-container">
+    <div class="ibox-title">
+      <h3>服务列表</h3>
+    </div>
+    <div class="ibox-content">
+      <el-form ref="searchForm" :model="searchForm" label-width="100px">
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="请求路径：" prop="path">
+              <el-input v-model="searchForm.path"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row type="flex" justify="center">
+          <el-button type="info" @click="resetForm('searchForm')">重置</el-button>
+          <el-button type="primary" @click="submitForm('searchForm')">搜索</el-button>
+        </el-row>
+      </el-form>
+
+      <el-row style="margin-top: 30px;">
+        <el-button type="primary" @click="handleEdit(0)">新建服务</el-button>
+      </el-row>
+
+      <el-table :data="serviceData.data" border style="width: 100%; margin-top: 30px;">
+        <el-table-column prop="protocol" label="通信协议"></el-table-column>
+        <el-table-column prop="path" label="请求路径"></el-table-column>
+        <el-table-column prop="port" label="服务器端口"></el-table-column>
+        <el-table-column prop="retries" label="失败重试次数"></el-table-column>
+        <el-table-column prop="connect_timeout" label="连接超时时间"></el-table-column>
+        <el-table-column prop="write_timeout" label="连续写操作"></el-table-column>
+        <el-table-column prop="read_timeout" label="连续读取操作"></el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button size="mini" @click="handleEdit(scope.row.id)">编辑</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-row type="flex" justify="center" style="margin-top: 30px;" v-if="total > 10">
+        <el-pagination background layout="prev, pager, next" :total="total" @current-change="handleCurrentChange" :current-page="page"></el-pagination>
+      </el-row>
+    </div>
+  </div>
+</template>
+
+<script>
+import {
+  serviceLists
+} from 'api/service'
+import {
+  ERR_OK
+} from '@/api/config'
+import {
+  Message
+} from 'element-ui'
+
+export default {
+  name: 'service',
+  data () {
+    return {
+      serviceData: [],
+      searchForm: {
+        path: '',
+        size: 1
+      },
+      page: 1,
+      total: 0, // table数据总条数
+      pagesize: 10
+    }
+  },
+  created () {
+    this.serviceLists()
+  },
+  methods: {
+    // 重置
+    resetForm (formName) {
+      this.$refs[formName].resetFields()
+    },
+    submitForm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.serviceLists()
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    async serviceLists () {
+      let response = await serviceLists(this.searchForm)
+      this.loading = true
+      if (response.data.code == ERR_OK) {
+        this.serviceData = response.data.data
+        this.total = response.data.data.total * 10
+        this.loading = false
+      } else {
+        Message(response.data.message)
+      }
+    },
+    // 编辑
+    handleEdit (id) {
+      this.$router.push({
+        path: `/service/edit/${id}`
+      })
+    },
+    handleCurrentChange: function (currentPage) {
+      let params = Object.assign(this.searchForm, { page: currentPage })
+      this.userLists(params)
+    }
+  }
+}
+</script>
