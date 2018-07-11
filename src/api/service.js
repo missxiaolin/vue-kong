@@ -13,10 +13,10 @@ export function serviceLists (query) {
 }
 
 /**
- * 服务编辑
+ * 服务添加
  * @param {*} query
  */
-export function serviceEdit (query) {
+export function serviceAdd (query) {
   return fetch({
     url: '/kong/service/add',
     method: 'post',

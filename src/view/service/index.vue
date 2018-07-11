@@ -5,7 +5,7 @@
     </div>
     <div class="ibox-content">
       <el-row style="margin-top: 30px;">
-        <el-button type="primary" @click="handleEdit(0)">新建服务</el-button>
+        <el-button type="primary" @click="handleAdd()">新建服务</el-button>
       </el-row>
 
       <el-table :data="serviceData.data" border style="width: 100%; margin-top: 30px;">
@@ -85,6 +85,12 @@ export default {
     handleEdit (id) {
       this.$router.push({
         path: `/service/edit/${id}`
+      })
+    },
+    // 添加
+    handleAdd () {
+      this.$router.push({
+        path: `/service/add`
       })
     },
     handleCurrentChange: function (currentPage) {

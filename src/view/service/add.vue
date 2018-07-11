@@ -38,8 +38,8 @@
 
 <script>
 import {
-  serviceUpload,
-  serviceInfo
+  serviceAdd,
+  serviceUpload
 } from 'api/service'
 import {
   ERR_OK
@@ -99,7 +99,6 @@ export default {
         }
       },
       ruleForm: {
-        id: this.$route.params.id,
         protocol: '',
         path: '',
         port: '',
@@ -111,20 +110,20 @@ export default {
     }
   },
   created () {
-    this.serviceInfo()
   },
   methods: {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let params = this.ruleForm
-          this.edit(serviceUpload(params))
+          this.add(serviceAdd(params))
         } else {
           console.log('error submit!!')
+          return false
         }
       })
     },
-    async edit (callback) {
+    async add (callback) {
       let response = await callback
       this.loading = true
       if (response.data.code == ERR_OK) {
@@ -135,29 +134,6 @@ export default {
       } else {
         Message(response.data.message)
       }
-    },
-    async serviceInfo () {
-      let self = this
-      let params = {
-        id: this.$route.params.id
-      }
-      await serviceInfo(params).then(function (response) {
-        if (response.data.code == ERR_OK) {
-          self.ruleForm.name = response.data.data.name
-          self.ruleForm.protocol = response.data.data.protocol
-          self.ruleForm.url = `${response.data.data.protocol}://${response.data.data.host}`
-          self.ruleForm.port = response.data.data.port
-          self.ruleForm.retries = response.data.data.retries
-          self.ruleForm.connect_timeout = response.data.data.connect_timeout
-          self.ruleForm.write_timeout = response.data.data.write_timeout
-          self.ruleForm.read_timeout = response.data.data.read_timeout
-
-          self.loading = false
-        } else {
-          Message(response.data.message)
-        }
-        self.loading = true
-      })
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
