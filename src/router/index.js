@@ -51,7 +51,7 @@ export const asyncRouterMap = [
     name: '用户中心',
     component: layout,
     redirect: '/user/index',
-    icon: 'icon-Excel',
+    icon: 'icon-ren',
     noDropdown: false,
     children: [
       {
@@ -71,7 +71,7 @@ export const asyncRouterMap = [
     name: '服务中心',
     component: layout,
     redirect: '/service/index',
-    icon: 'icon-Excel',
+    icon: 'icon-fuwuqi',
     noDropdown: false,
     children: [
       {
@@ -92,7 +92,7 @@ export const asyncRouterMap = [
     name: '设置',
     component: layout,
     redirect: '/introduction/index',
-    icon: 'icon-ren',
+    icon: 'icon-iconfonticonfontjixieqimo',
     noDropdown: false,
     children: [
       {
