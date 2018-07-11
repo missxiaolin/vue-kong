@@ -47,3 +47,15 @@ export function serviceInfo (query) {
     params: query
   })
 }
+
+/**
+ * 服务删除
+ * @param {*} query
+ */
+export function serviceDelete (query) {
+  return fetch({
+    url: '/kong/service/delete',
+    method: 'get',
+    params: query
+  })
+}
