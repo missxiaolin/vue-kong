@@ -106,6 +106,20 @@ export const asyncRouterMap = [
       }
     ]
   }, {
+    path: '/consumer',
+    name: '消费者中心',
+    component: layout,
+    redirect: '/consumer/index',
+    icon: 'icon-pinpaixiaofeizhe',
+    noDropdown: false,
+    children: [
+      {
+        path: 'index',
+        component: _import('consumer/index'),
+        name: '消费者列表'
+      }
+    ]
+  }, {
     path: '/apis',
     name: 'API中心',
     component: layout,
