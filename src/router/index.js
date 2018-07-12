@@ -105,6 +105,31 @@ export const asyncRouterMap = [
         hidden: true
       }
     ]
+  }, {
+    path: '/plugins',
+    name: '插件中心',
+    component: layout,
+    redirect: '/plugins/index',
+    icon: 'icon-zuzhiheguanlitubiao-',
+    noDropdown: false,
+    children: [
+      {
+        path: 'index',
+        component: _import('plugins/index'),
+        name: '服务列表'
+      },
+      {
+        path: 'edit/:id',
+        component: _import('plugins/edit'),
+        name: '服务编辑',
+        hidden: true
+      }, {
+        path: 'add',
+        component: _import('plugins/add'),
+        name: '服务添加',
+        hidden: true
+      }
+    ]
   }
 ]
 
