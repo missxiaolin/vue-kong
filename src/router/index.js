@@ -106,6 +106,56 @@ export const asyncRouterMap = [
       }
     ]
   }, {
+    path: '/apis',
+    name: 'API中心',
+    component: layout,
+    redirect: '/apis/index',
+    icon: 'icon-APIwendang',
+    noDropdown: false,
+    children: [
+      {
+        path: 'index',
+        component: _import('apis/index'),
+        name: 'API列表'
+      },
+      {
+        path: 'edit/:id',
+        component: _import('apis/edit'),
+        name: 'API编辑',
+        hidden: true
+      }, {
+        path: 'add',
+        component: _import('apis/add'),
+        name: 'API添加',
+        hidden: true
+      }
+    ]
+  }, {
+    path: '/routes',
+    name: '路由中心',
+    component: layout,
+    redirect: '/routes/index',
+    icon: 'icon-luyou',
+    noDropdown: false,
+    children: [
+      {
+        path: 'index',
+        component: _import('routes/index'),
+        name: '路由列表'
+      },
+      {
+        path: 'edit/:id',
+        component: _import('routes/edit'),
+        name: '路由编辑',
+        hidden: true
+      }, {
+        path: 'add',
+        component: _import('routes/add'),
+        name: '路由添加',
+        hidden: true
+      }
+    ]
+  }, {
     path: '/plugins',
     name: '插件中心',
     component: layout,
@@ -116,17 +166,17 @@ export const asyncRouterMap = [
       {
         path: 'index',
         component: _import('plugins/index'),
-        name: '服务列表'
+        name: '插件列表'
       },
       {
         path: 'edit/:id',
         component: _import('plugins/edit'),
-        name: '服务编辑',
+        name: '插件编辑',
         hidden: true
       }, {
         path: 'add',
         component: _import('plugins/add'),
-        name: '服务添加',
+        name: '插件添加',
         hidden: true
       }
     ]
