@@ -1,7 +1,7 @@
 <template>
     <div class="app-container">
         <div class="ibox-title">
-            <h3>路由 列表</h3>
+            <h3>路由列表</h3>
         </div>
 
         <div class="ibox-content">
