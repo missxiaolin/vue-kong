@@ -47,3 +47,15 @@ export function info (query) {
     params: query
   })
 }
+
+/**
+ * 消费者删除
+ * @param {*} query
+ */
+export function consumerDelete (query) {
+  return fetch({
+    url: '/kong/consumer/delete',
+    method: 'get',
+    params: query
+  })
+}

@@ -32,6 +32,7 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="primary" size="mini" @click="popup(scope.row.id,scope.row)">编辑</el-button>
+            <el-button size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -43,7 +44,8 @@
 import {
   lists,
   add,
-  updated
+  updated,
+  consumerDelete
 } from 'api/consumer'
 import {
   ERR_OK
@@ -82,6 +84,7 @@ export default {
     this.consumerLists()
   },
   methods: {
+    // 列表
     async consumerLists () {
       let response = await lists(this.searchForm)
       this.loading = true
@@ -92,6 +95,7 @@ export default {
         Message(response.data.message)
       }
     },
+    // 编辑、新增
     popup (id, row = '') {
       this.dialogFormVisible = true
       if (id == 0) {
@@ -105,6 +109,28 @@ export default {
         this.ruleForm.custom_id = row.custom_id
         this.ruleForm.username = row.username
       }
+    },
+    // 消费者删除
+    handleDelete (id) {
+      let self = this
+      let param = {
+        'id': id
+      }
+      this.$confirm('此操作将永久删除服务, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        consumerDelete(param).then(res => {
+          if (res.data.code == ERR_OK) {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            self.consumerLists()
+          }
+        })
+      })
     },
     submitForm (formName) {
       let self = this
