@@ -95,11 +95,21 @@ export default {
       let param = {
         'id': id
       }
-      serviceDelete(param).then(res => {
-        console.log(res)
-        if (res.data.code == ERR_OK) {
-          self.serviceLists()
-        }
+      this.$confirm('此操作将永久删除服务, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        serviceDelete(param).then(res => {
+          console.log(res)
+          if (res.data.code == ERR_OK) {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            self.serviceLists()
+          }
+        })
       })
     },
     // 添加
