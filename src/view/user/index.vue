@@ -49,24 +49,25 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-row type="flex" justify="center" style="margin-top: 30px;" v-if="total > 10">
-        <el-pagination background layout="prev, pager, next" :total="total" @current-change="handleCurrentChange" :current-page="page"></el-pagination>
+      <el-row type="flex" justify="center" style="margin-top: 30px;">
+        <!-- <el-pagination background layout="prev, pager, next" :total="total" @current-change="handleCurrentChange" :current-page="page"></el-pagination> -->
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          @current-change="handleCurrentChange"
+          :current-page="page"
+          :page-size="searchForm.size"
+          :total="total">
+        </el-pagination>
       </el-row>
     </div>
   </div>
 </template>
 
 <script>
-import {
-  userLists,
-  userStatus
-} from 'api/user'
-import {
-  ERR_OK
-} from '@/api/config'
-import {
-  Message
-} from 'element-ui'
+import { userLists, userStatus } from 'api/user'
+import { ERR_OK } from '@/api/config'
+import { Message } from 'element-ui'
 
 export default {
   name: 'user',
@@ -79,7 +80,7 @@ export default {
         mobile: '',
         create_start: '',
         create_end: '',
-        size: 1
+        size: 50
       },
       page: 1,
       total: 0, // table数据总条数
@@ -109,12 +110,15 @@ export default {
         }
       })
     },
+    // 用户列表
     async userLists () {
       let response = await userLists(this.searchForm)
       this.loading = true
       if (response.data.code == ERR_OK) {
         this.userData = response.data.data
-        this.total = response.data.data.total * 10
+        console.log(this.userData)
+        this.total = response.data.data.total
+        console.log(this.total)
         this.loading = false
       } else {
         Message(response.data.message)
