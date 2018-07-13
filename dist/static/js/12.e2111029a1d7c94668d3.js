@@ -1,2 +1,0 @@
-webpackJsonp([12],{"rIK+":function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0});var l={render:function(){var e=this.$createElement;return(this._self._c||e)("div",[this._v("\n    edit\n")])},staticRenderFns:[]},r=t("VU/8")(null,l,!1,null,null,null);n.default=r.exports}});
-//# sourceMappingURL=12.e2111029a1d7c94668d3.js.map
