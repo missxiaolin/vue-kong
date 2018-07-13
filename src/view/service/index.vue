@@ -23,9 +23,6 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-row type="flex" justify="center" style="margin-top: 30px;" v-if="total > 10">
-        <el-pagination background layout="prev, pager, next" :total="total" @current-change="handleCurrentChange" :current-page="page"></el-pagination>
-      </el-row>
     </div>
   </div>
 </template>
