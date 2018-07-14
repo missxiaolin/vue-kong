@@ -10,3 +10,39 @@ export function apiLists () {
     params: {}
   })
 }
+
+/**
+ * api添加
+ * @param {*} query
+ */
+export function add (query) {
+  return fetch({
+    url: '/kong/api/add',
+    method: 'post',
+    data: query
+  })
+}
+
+/**
+ * api修改
+ * @param {*} query
+ */
+export function updated (query) {
+  return fetch({
+    url: '/kong/api/upload',
+    method: 'post',
+    data: query
+  })
+}
+
+/**
+ * api查询
+ * @param {*} query
+ */
+export function info (query) {
+  return fetch({
+    url: '/kong/api/info',
+    method: 'get',
+    params: query
+  })
+}
