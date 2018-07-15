@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { pluginsLists } from 'api/plugins'
+import { pluginsLists, pluginsDelete } from 'api/plugins'
 import { ERR_OK } from '@/api/config'
 import { Message } from 'element-ui'
 
@@ -43,16 +43,15 @@ export default {
     }
   },
   created () {
-    this.apisLists()
+    this.pluginsLists()
   },
   methods: {
     // 插件列表
-    async apisLists () {
+    async pluginsLists () {
       let response = await pluginsLists()
       this.loading = true
       if (response.data.code == ERR_OK) {
         this.pluginssData = response.data.data
-        console.log(this.pluginssData.data)
         this.loading = false
       } else {
         Message(response.data.message)
@@ -62,6 +61,33 @@ export default {
     handleAdd () {
       this.$router.push({
         path: `/plugins/add`
+      })
+    },
+    // 编辑插件
+    handleEdit () {
+
+    },
+    // 删除插件
+    handleDelete (id) {
+      let self = this
+      let param = {
+        'id': id
+      }
+      this.$confirm('此操作将永久删除服务, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        pluginsDelete(param).then(res => {
+          console.log(res)
+          if (res.data.code == ERR_OK) {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            self.pluginsLists()
+          }
+        })
       })
     }
   }
