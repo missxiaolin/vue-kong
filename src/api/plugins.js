@@ -1,12 +1,23 @@
 import fetch from '@/common/js/fetch'
 
 /**
- * api列表
+ * 插件列表
  */
 export function pluginsLists () {
   return fetch({
     url: '/kong/plugins/lists',
     method: 'get',
     params: {}
+  })
+}
+
+/**
+ * 插件删除
+ */
+export function pluginsDelete (query) {
+  return fetch({
+    url: '/kong/plugins/delete',
+    method: 'get',
+    params: query
   })
 }
