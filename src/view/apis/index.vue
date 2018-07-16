@@ -58,6 +58,9 @@ export default {
       this.$router.push({
         path: `/apis/edit/${id}`
       })
+    },
+    handleDelete (id) {
+
     }
   }
 }
