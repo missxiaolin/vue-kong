@@ -50,7 +50,6 @@
         </el-table-column>
       </el-table>
       <el-row type="flex" justify="center" style="margin-top: 30px;">
-        <!-- <el-pagination background layout="prev, pager, next" :total="total" @current-change="handleCurrentChange" :current-page="page"></el-pagination> -->
         <el-pagination
           background
           layout="prev, pager, next"
@@ -116,9 +115,7 @@ export default {
       this.loading = true
       if (response.data.code == ERR_OK) {
         this.userData = response.data.data
-        console.log(this.userData)
         this.total = response.data.data.total
-        console.log(this.total)
         this.loading = false
       } else {
         Message(response.data.message)
