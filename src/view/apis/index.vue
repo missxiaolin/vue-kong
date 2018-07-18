@@ -5,7 +5,7 @@
     </div>
     <div class="ibox-content">
       <el-row style="margin-top: 30px;">
-        <el-button type="primary" @click="handleEdit(0)">新建Api</el-button>
+        <el-button type="primary" @click="handleAdd()">新建Api</el-button>
       </el-row>
       <el-table :data="apiData.data" border style="width: 100%; margin-top: 30px;">
         <el-table-column prop="name" label="名称"></el-table-column>
@@ -52,6 +52,12 @@ export default {
       } else {
         Message(response.data.message)
       }
+    },
+    // 添加
+    handleAdd () {
+      this.$router.push({
+        path: '/apis/add'
+      })
     },
     // 编辑
     handleEdit (id) {
