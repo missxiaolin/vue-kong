@@ -23,7 +23,7 @@
       <el-form-item label="转发地址：" prop="upstream_url">
         <el-input name="upstream_url" type="text" v-model="ruleForm.upstream_url" placeholder="转发地址"></el-input>
       </el-form-item>
-      <el-form-item label="是否带前缀" prop="strip_uri">
+      <el-form-item label="是否前缀：" prop="strip_uri">
         <el-radio v-model="ruleForm.strip_uri" label="true">是</el-radio>
         <el-radio v-model="ruleForm.strip_uri" label="false">否</el-radio>
       </el-form-item>
