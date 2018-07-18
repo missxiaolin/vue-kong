@@ -4,23 +4,44 @@
       <el-form-item label="api名称：" prop="name">
         <el-input name="name" type="text" v-model="ruleForm.name" placeholder="api名称"></el-input>
       </el-form-item>
-      <el-form-item label="域：" prop="hosts">
-        <el-input name="hosts" type="text" v-model="ruleForm.hosts" placeholder="域"></el-input>
+      <!-- :prop="ruleForm.hosts[index]" -->
+      <el-form-item v-for="(domain, index) in ruleForm.hosts" :label="'域名：'" :key="index" :rules="{
+      required: true, message: '域名不能为空', trigger: 'blur'}">
+        <el-input :model="domain"></el-input>
+        <el-button v-show="index != 0" @click.prevent="removeDomain(domain)">删除</el-button>
       </el-form-item>
+
+      <el-form-item>
+        <el-button @click="addDomain">新增域名</el-button>
+      </el-form-item>
+
       <el-form-item label="发送方式：" prop="methods">
-        <el-input name="methods" type="text" v-model="ruleForm.methods" placeholder="发送方式"></el-input>
+        <el-checkbox-group v-model="ruleForm.methods">
+          <el-checkbox label="POST"></el-checkbox>
+          <el-checkbox label="GET"></el-checkbox>
+        </el-checkbox-group>
       </el-form-item>
-      <el-form-item label="匹配路径：" prop="uris">
-        <el-input name="uris" type="text" v-model="ruleForm.uris" placeholder="匹配路径"></el-input>
+
+      <el-form-item v-for="(uri, index) in ruleForm.uris" :label="'匹配路径：'" :key="index" :rules="{
+      required: true, message: '匹配路径不能为空', trigger: 'blur'}">
+        <el-input :model="uri"></el-input>
+        <el-button v-show="index != 0" @click.prevent="removeUri(uri)">删除</el-button>
       </el-form-item>
+
+      <el-form-item>
+        <el-button @click="addUri">新增匹配路径</el-button>
+      </el-form-item>
+
       <el-form-item label="转发地址：" prop="upstream_url">
         <el-input name="upstream_url" type="text" v-model="ruleForm.upstream_url" placeholder="转发地址"></el-input>
       </el-form-item>
       <el-form-item label="strip_uri：" prop="strip_uri">
-        <el-input name="strip_uri" type="text" v-model="ruleForm.strip_uri" placeholder="strip_uri"></el-input>
+        <el-radio v-model="ruleForm.strip_uri" label="true">是</el-radio>
+        <el-radio v-model="ruleForm.strip_uri" label="false">否</el-radio>
       </el-form-item>
       <el-form-item label="preserve_host：" prop="preserve_host">
-        <el-input name="preserve_host" type="text" v-model="ruleForm.preserve_host" placeholder="preserve_host"></el-input>
+        <el-radio v-model="ruleForm.preserve_host" label="true">是</el-radio>
+        <el-radio v-model="ruleForm.preserve_host" label="false">否</el-radio>
       </el-form-item>
       <el-form-item label="失败重试次数：" prop="retries">
         <el-input name="retries" type="text" v-model="ruleForm.retries" placeholder="失败重试次数"></el-input>
@@ -35,10 +56,12 @@
         <el-input name="upstream_read_timeout" type="text" v-model="ruleForm.upstream_read_timeout" placeholder="连续读取操作"></el-input>
       </el-form-item>
       <el-form-item label="端口服务：" prop="https_only">
-        <el-input name="https_only" type="text" v-model="ruleForm.https_only" placeholder="端口服务"></el-input>
+        <el-radio v-model="ruleForm.https_only" label="true">是</el-radio>
+        <el-radio v-model="ruleForm.https_only" label="false">否</el-radio>
       </el-form-item>
       <el-form-item label="PROTO头：" prop="http_if_terminated">
-        <el-input name="http_if_terminated" type="text" v-model="ruleForm.http_if_terminated" placeholder="PROTO头"></el-input>
+        <el-radio v-model="ruleForm.http_if_terminated" label="true">是</el-radio>
+        <el-radio v-model="ruleForm.http_if_terminated" label="false">否</el-radio>
       </el-form-item>
 
       <el-form-item>
@@ -135,14 +158,14 @@ export default {
       ruleForm: {
         'id': this.$route.params.id,
         'name': '',
-        'strip_uri': '',
-        'hosts': '',
-        'methods': '',
-        'http_if_terminated': '',
-        'https_only': '',
-        'retries': '',
-        'uris': '',
-        'preserve_host': '',
+        'strip_uri': true,
+        'hosts': [],
+        'methods': [],
+        'http_if_terminated': false,
+        'https_only': false,
+        'retries': null,
+        'uris': [],
+        'preserve_host': false,
         'upstream_connect_timeout': '',
         'upstream_read_timeout': '',
         'upstream_send_timeout': '',
@@ -192,14 +215,14 @@ export default {
       await info(params).then(function (response) {
         if (response.data.code == ERR_OK) {
           self.ruleForm.name = response.data.data.name
-          self.ruleForm.strip_uri = `${response.data.data.strip_uri}`
-          self.ruleForm.hosts = `${response.data.data.hosts}`
-          self.ruleForm.methods = `${response.data.data.methods}`
-          self.ruleForm.http_if_terminated = `${response.data.data.http_if_terminated}`
-          self.ruleForm.https_only = `${response.data.data.https_only}`
-          self.ruleForm.retries = `${response.data.data.retries}`
-          self.ruleForm.uris = `${response.data.data.uris}`
-          self.ruleForm.preserve_host = `${response.data.data.preserve_host}`
+          self.ruleForm.strip_uri = response.data.data.strip_uri
+          self.ruleForm.hosts = response.data.data.hosts
+          self.ruleForm.methods = response.data.data.methods
+          self.ruleForm.http_if_terminated = response.data.data.http_if_terminated
+          self.ruleForm.https_only = response.data.data.https_only
+          self.ruleForm.retries = response.data.data.retries
+          self.ruleForm.uris = response.data.data.uris
+          self.ruleForm.preserve_host = response.data.data.preserve_host
           self.ruleForm.upstream_connect_timeout = response.data.data.upstream_connect_timeout
           self.ruleForm.upstream_read_timeout = response.data.data.upstream_read_timeout
           self.ruleForm.upstream_send_timeout = response.data.data.upstream_send_timeout
@@ -214,6 +237,24 @@ export default {
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
+    },
+    removeDomain (item) {
+      let index = this.ruleForm.hosts.indexOf(item)
+      if (index !== -1) {
+        this.ruleForm.hosts.splice(index, 1)
+      }
+    },
+    addDomain () {
+      this.ruleForm.hosts.push('')
+    },
+    removeUri (item) {
+      let index = this.ruleForm.uris.indexOf(item)
+      if (index !== -1) {
+        this.ruleForm.uris.splice(index, 1)
+      }
+    },
+    addUri () {
+      this.ruleForm.uris.push('')
     }
   }
 }
