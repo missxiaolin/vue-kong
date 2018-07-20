@@ -23,13 +23,19 @@
       <el-form-item label="转发地址：" prop="upstream_url">
         <el-input name="upstream_url" type="text" v-model="ruleForm.upstream_url" placeholder="转发地址"></el-input>
       </el-form-item>
+
       <el-form-item label="是否前缀：" prop="strip_uri">
-        <el-radio v-model="ruleForm.strip_uri" label="true">是</el-radio>
-        <el-radio v-model="ruleForm.strip_uri" label="false">否</el-radio>
+        <el-radio-group v-model="ruleForm.strip_uri">
+          <el-radio :label="true">是</el-radio>
+          <el-radio :label="false">否</el-radio>
+        </el-radio-group>
       </el-form-item>
+
       <el-form-item label="preserve_host：" prop="preserve_host">
-        <el-radio v-model="ruleForm.preserve_host" label="true">是</el-radio>
-        <el-radio v-model="ruleForm.preserve_host" label="false">否</el-radio>
+        <el-radio-group v-model="ruleForm.preserve_host">
+          <el-radio :label="true">是</el-radio>
+          <el-radio :label="false">否</el-radio>
+        </el-radio-group>
       </el-form-item>
       <el-form-item label="失败重试次数：" prop="retries">
         <el-input name="retries" type="text" v-model="ruleForm.retries" placeholder="失败重试次数"></el-input>
@@ -44,12 +50,16 @@
         <el-input name="upstream_read_timeout" type="text" v-model="ruleForm.upstream_read_timeout" placeholder="连续读取操作"></el-input>
       </el-form-item>
       <el-form-item label="端口服务：" prop="https_only">
-        <el-radio v-model="ruleForm.https_only" label="true">是</el-radio>
-        <el-radio v-model="ruleForm.https_only" label="false">否</el-radio>
+        <el-radio-group v-model="ruleForm.https_only">
+          <el-radio :label="true">是</el-radio>
+          <el-radio :label="false">否</el-radio>
+        </el-radio-group>
       </el-form-item>
       <el-form-item label="PROTO头：" prop="http_if_terminated">
-        <el-radio v-model="ruleForm.http_if_terminated" label="true">是</el-radio>
-        <el-radio v-model="ruleForm.http_if_terminated" label="false">否</el-radio>
+        <el-radio-group v-model="ruleForm.http_if_terminated">
+          <el-radio :label="true">是</el-radio>
+          <el-radio :label="false">否</el-radio>
+        </el-radio-group>
       </el-form-item>
 
       <el-form-item>
@@ -142,7 +152,6 @@ export default {
         }
       },
       ruleForm: {
-        'id': this.$route.params.id,
         'name': '',
         'strip_uri': true,
         'hosts': '',
@@ -163,20 +172,22 @@ export default {
 
   },
   methods: {
+    // 验证
     submitForm (formName) {
       let self = this
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          self.request(add)
+          self.request()
         } else {
           console.log('error submit!!')
           return false
         }
       })
     },
-    async request (method) {
+    // 添加
+    async request () {
       let params = this.ruleForm
-      let response = await method(params)
+      let response = await add(params)
       this.loading = true
       if (response.data.code == ERR_OK) {
         this.$router.push({

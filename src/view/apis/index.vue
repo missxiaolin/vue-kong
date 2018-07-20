@@ -65,6 +65,7 @@ export default {
         path: `/apis/edit/${id}`
       })
     },
+    // 删除api
     handleDelete (id) {
       let self = this
       let param = {

@@ -39,7 +39,7 @@ export function updated (query) {
  * api查询
  * @param {*} query
  */
-export function info (query) {
+export function apiInfo (query) {
   return fetch({
     url: '/kong/api/info',
     method: 'get',
