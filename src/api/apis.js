@@ -46,3 +46,15 @@ export function info (query) {
     params: query
   })
 }
+
+/**
+ * api查询
+ * @param {*} query
+ */
+export function deleteApi (query) {
+  return fetch({
+    url: '/kong/api/delete',
+    method: 'get',
+    params: query
+  })
+}
