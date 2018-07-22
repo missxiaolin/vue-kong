@@ -126,8 +126,12 @@ export const asyncRouterMap = [
         path: 'routes/list',
         component: _import('routes/index'),
         name: '路由列表'
-      },
-      {
+      }, {
+        path: 'routes/add',
+        component: _import('routes/add'),
+        name: '路由添加',
+        hidden: true
+      }, {
         path: 'routes/edit/:id',
         component: _import('routes/edit'),
         name: '路由编辑',
