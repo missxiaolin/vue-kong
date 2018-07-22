@@ -50,11 +50,6 @@ export default {
   data () {
     return {
       rules: {
-        name: {
-          required: true,
-          message: '请输入用户名称',
-          trigger: 'blur'
-        }
       },
       ruleForm: {
         'hosts': null,
