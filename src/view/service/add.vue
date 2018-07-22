@@ -128,7 +128,7 @@ export default {
       this.loading = true
       if (response.data.code == ERR_OK) {
         this.$router.push({
-          path: '/service'
+          path: 'kong/service/list'
         })
         this.loading = false
       } else {

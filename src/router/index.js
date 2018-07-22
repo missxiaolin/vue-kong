@@ -81,109 +81,69 @@ export const asyncRouterMap = [
       }
     ]
   }, {
-    path: '/service',
-    name: '服务中心',
+    path: '/kong',
+    name: 'Kong',
     component: layout,
-    redirect: '/service/index',
+    redirect: '/kong/service/list',
     icon: 'icon-fuwuqi',
     noDropdown: false,
     children: [
       {
-        path: 'index',
+        path: 'service/list',
         component: _import('service/index'),
         name: '服务列表'
       },
       {
-        path: 'edit/:id',
+        path: 'service/edit/:id',
         component: _import('service/edit'),
         name: '服务编辑',
         hidden: true
       }, {
-        path: 'add',
+        path: 'service/add',
         component: _import('service/add'),
         name: '服务添加',
         hidden: true
-      }
-    ]
-  }, {
-    path: '/consumer',
-    name: '消费者中心',
-    component: layout,
-    redirect: '/consumer/index',
-    icon: 'icon-pinpaixiaofeizhe',
-    noDropdown: false,
-    children: [
-      {
-        path: 'index',
+      }, {
+        path: 'consumer/list',
         component: _import('consumer/index'),
         name: '消费者列表'
-      }
-    ]
-  }, {
-    path: '/apis',
-    name: 'API中心',
-    component: layout,
-    redirect: '/apis/index',
-    icon: 'icon-APIwendang',
-    noDropdown: false,
-    children: [
-      {
-        path: 'index',
+      }, {
+        path: 'apis/list',
         component: _import('apis/index'),
         name: 'API列表'
       },
       {
-        path: 'edit/:id',
+        path: 'apis/edit/:id',
         component: _import('apis/edit'),
         name: 'API编辑',
         hidden: true
       }, {
-        path: 'add',
+        path: 'apis/add',
         component: _import('apis/add'),
         name: 'API添加',
         hidden: true
-      }
-    ]
-  }, {
-    path: '/routes',
-    name: '路由中心',
-    component: layout,
-    redirect: '/routes/index',
-    icon: 'icon-luyou',
-    noDropdown: false,
-    children: [
-      {
-        path: 'index',
+      }, {
+        path: 'routes/list',
         component: _import('routes/index'),
         name: '路由列表'
       },
       {
-        path: 'edit/:id',
+        path: 'routes/edit/:id',
         component: _import('routes/edit'),
         name: '路由编辑',
         hidden: true
-      }
-    ]
-  }, {
-    path: '/plugins',
-    name: '插件中心',
-    component: layout,
-    redirect: '/plugins/index',
-    icon: 'icon-zuzhiheguanlitubiao-',
-    noDropdown: false,
-    children: [
-      {
-        path: 'index',
+      }, {
+        path: 'plugins/list',
         component: _import('plugins/index'),
         name: '插件列表'
       },
       {
-        path: 'edit/:id',
+        path: 'plugins/edit/:id',
         component: _import('plugins/edit'),
         name: '插件编辑',
         hidden: true
       }, {
-        path: 'add',
+        path: 'plugins/add',
         component: _import('plugins/add'),
         name: '插件添加',
         hidden: true

@@ -124,18 +124,20 @@ export default {
         }
       })
     },
+    // 修改
     async edit (callback) {
       let response = await callback
       this.loading = true
       if (response.data.code == ERR_OK) {
         this.$router.push({
-          path: '/service'
+          path: 'kong/service/list'
         })
         this.loading = false
       } else {
         Message(response.data.message)
       }
     },
+    // 详情
     async serviceInfo () {
       let self = this
       let params = {

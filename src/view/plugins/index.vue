@@ -60,7 +60,7 @@ export default {
     // 添加插件
     handleAdd () {
       this.$router.push({
-        path: `/plugins/add`
+        path: `/kong/plugins/add`
       })
     },
     // 编辑插件

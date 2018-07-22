@@ -212,7 +212,7 @@ export default {
       this.loading = true
       if (response.data.code == ERR_OK) {
         this.$router.push({
-          path: '/apis'
+          path: '/kong/apis/list'
         })
         this.loading = false
       } else {

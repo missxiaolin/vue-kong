@@ -112,7 +112,7 @@ export default {
     // 添加
     handleAdd () {
       this.$router.push({
-        path: `/service/add`
+        path: `/kong/service/add`
       })
     },
     handleCurrentChange: function (currentPage) {

@@ -56,13 +56,13 @@ export default {
     // 添加
     handleAdd () {
       this.$router.push({
-        path: '/apis/add'
+        path: '/kong/apis/add'
       })
     },
     // 编辑
     handleEdit (id) {
       this.$router.push({
-        path: `/apis/edit/${id}`
+        path: `/kong/apis/edit/${id}`
       })
     },
     // 删除api
