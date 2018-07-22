@@ -31,7 +31,7 @@
         <el-table-column prop="created_at" label="创建时间"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="primary" size="mini" @click="popup(scope.row.id,scope.row)">编辑</el-button>
+            <el-button size="mini" @click="popup(scope.row.id,scope.row)">编辑</el-button>
             <el-button size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
