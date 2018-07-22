@@ -1,31 +1,36 @@
 <template>
   <div class="app-container">
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+      <el-form-item label="服务Id：" prop="protocols">
+        <el-input type="text" v-model="ruleForm.service.id" placeholder="服务id"></el-input>
+      </el-form-item>
+
       <el-form-item label="协议列表：" prop="protocols">
-        <el-checkbox-group v-model="ruleForm.protocolsList">
+        <el-checkbox-group v-model="ruleForm.protocols">
           <el-checkbox label="http"></el-checkbox>
           <el-checkbox label="https"></el-checkbox>
         </el-checkbox-group>
       </el-form-item>
+
       <el-form-item label="HTTP方法：" prop="methods">
-        <el-checkbox-group v-model="ruleForm.methodsList">
+        <el-checkbox-group v-model="ruleForm.methods">
           <el-checkbox label="POST"></el-checkbox>
           <el-checkbox label="GET"></el-checkbox>
         </el-checkbox-group>
       </el-form-item>
+
       <el-form-item label="路径列表：" prop="paths">
-        <el-input name="paths" type="text" v-model="ruleForm.paths" placeholder="/my-path"></el-input>
+        <el-input type="text" v-model="ruleForm.paths" placeholder="/my-path"></el-input>
       </el-form-item>
-      <el-form-item label="域名列表：" prop="hosts">
-        <el-input name="hosts" type="text" v-model="ruleForm.hosts" placeholder="example.com"></el-input>
-      </el-form-item>
+
       <el-form-item label="删除匹配前缀：" prop="strip_path">
-        <el-radio v-model="ruleForm.strip_path" label="true">是</el-radio>
-        <el-radio v-model="ruleForm.strip_path" label="false">否</el-radio>
+        <el-radio v-model="ruleForm.strip_path" :label="true">是</el-radio>
+        <el-radio v-model="ruleForm.strip_path" :label="false">否</el-radio>
       </el-form-item>
+
       <el-form-item label="请求标头：" prop="preserve_host">
-        <el-radio v-model="ruleForm.preserve_host" label="true">是</el-radio>
-        <el-radio v-model="ruleForm.preserve_host" label="false">否</el-radio>
+        <el-radio v-model="ruleForm.preserve_host" :label="true">是</el-radio>
+        <el-radio v-model="ruleForm.preserve_host" :label="false">否</el-radio>
       </el-form-item>
 
       <el-form-item>
@@ -37,17 +42,9 @@
 </template>
 
 <script>
-import {
-  add,
-  updated,
-  info
-} from 'api/routes'
-import {
-  ERR_OK
-} from '@/api/config'
-import {
-  Message
-} from 'element-ui'
+import { routesAdd } from 'api/routes'
+import { ERR_OK } from '@/api/config'
+import { Message } from 'element-ui'
 
 export default {
   data () {
@@ -60,68 +57,49 @@ export default {
         }
       },
       ruleForm: {
-        'id': this.$route.params.id,
-        'protocolsList': [],
-        'methodsList': [],
-        'strip_path': 'true',
-        'preserve_host': 'false',
-        'regex_priority': '0',
+        'hosts': null,
+        'protocols': [],
+        'methods': [],
+        'strip_path': true,
+        'preserve_host': false,
+        'regex_priority': 0,
         'service': {
-          id: this.$route.params.id
+          'id': ''
         }
       }
     }
   },
   created () {
-    if (this.ruleForm.id != 0) {
-      this.routesInfo()
-    }
+
   },
   methods: {
+    // 数据验证
     submitForm (formName) {
       let self = this
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          if (this.ruleForm.id == 0) {
-            self.request(add)
-          } else {
-            self.request(updated)
-          }
+          self.request()
         } else {
           console.log('error submit!!')
           return false
         }
       })
     },
-    async request (method) {
+    // 路由添加
+    async request () {
       let params = this.ruleForm
-      let response = await method(params)
+      let response = await routesAdd(params)
       this.loading = true
       if (response.data.code == ERR_OK) {
         this.$router.push({
-          path: '/api'
+          path: '/kong/routes/list'
         })
         this.loading = false
       } else {
         Message(response.data.message)
       }
     },
-    async routesInfo () {
-      let self = this
-      let params = {
-        id: this.$route.params.id
-      }
-      await info(params).then(function (response) {
-        if (response.data.code == ERR_OK) {
-          self.ruleForm.name = response.data.data.name
-
-          self.loading = false
-        } else {
-          Message(response.data.message)
-        }
-        self.loading = true
-      })
-    },
+    // 重置
     resetForm (formName) {
       this.$refs[formName].resetFields()
     }

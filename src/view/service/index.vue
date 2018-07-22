@@ -8,7 +8,8 @@
         <el-button type="primary" @click="handleAdd()">新建服务</el-button>
       </el-row>
 
-      <el-table :data="serviceData.data" border style="width: 100%; margin-top: 30px;">
+      <el-table :data="serviceData.data" border style="min-width: 100%; margin-top: 30px;">
+        <el-table-column prop="id" label="服务Id"></el-table-column>
         <el-table-column prop="protocol" label="通信协议"></el-table-column>
         <el-table-column prop="name" label="名称"></el-table-column>
         <el-table-column prop="host" label="主机"></el-table-column>
@@ -122,3 +123,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.ibox-content{
+  width: 100%;
+  overflow:auto;
+}
+</style>

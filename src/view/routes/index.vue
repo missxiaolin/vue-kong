@@ -10,7 +10,7 @@
       </el-row>
 
       <el-table :data="routesData.data" border style="width: 100%; margin-top: 30px;">
-        <el-table-column prop="service.id" label="服务id"></el-table-column>
+        <el-table-column prop="id" label="路由Id"></el-table-column>
 
         <el-table-column label="发送方式">
           <template slot-scope="scope">
@@ -19,6 +19,7 @@
             </span>
           </template>
         </el-table-column>
+
         <el-table-column label="匹配方式">
           <template slot-scope="scope">
             <span v-for="(item,index) in scope.row.protocols" :key="index">{{item}}
@@ -93,15 +94,14 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        routesDelete(param).then(res => {
-          if (res.data.code == ERR_OK) {
-            this.$message({
-              type: 'success',
-              message: '删除成功!'
-            })
-            self.routesLists()
-          }
-        })
+        let res = routesDelete(param)
+        if (res.data.code == ERR_OK) {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+          this.routesLists()
+        }
       })
     }
   }
