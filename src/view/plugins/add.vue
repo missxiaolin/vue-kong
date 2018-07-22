@@ -32,7 +32,7 @@ export default {
       let response = await pluginsAdd(value)
       if (response.data.code == ERR_OK) {
         this.$router.push({
-          path: 'kong/plugins/list'
+          path: '/kong/plugins/list'
         })
         this.loading = false
       } else {
