@@ -43,23 +43,23 @@
 </template>
 
 <script>
-import { routeLists } from 'api/routes'
+import { routeLists, routesDelete } from 'api/routes'
 import { ERR_OK } from '@/api/config'
 import { Message } from 'element-ui'
 
 export default {
-  name: 'routes',
+  name: 'routes-list',
   data () {
     return {
       routesData: []
     }
   },
   created () {
-    this.apisLists()
+    this.routesLists()
   },
   methods: {
     // 路由列表
-    async apisLists () {
+    async routesLists () {
       let response = await routeLists()
       this.loading = true
       if (response.data.code == ERR_OK) {
@@ -82,8 +82,27 @@ export default {
         path: `/kong/routes/edit/${id}`
       })
     },
+    // 删除
     handleDelete (id) {
-
+      let self = this
+      let param = {
+        'id': id
+      }
+      this.$confirm('此操作将永久删除服务, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        routesDelete(param).then(res => {
+          if (res.data.code == ERR_OK) {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            self.routesLists()
+          }
+        })
+      })
     }
   }
 }

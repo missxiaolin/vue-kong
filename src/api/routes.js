@@ -15,7 +15,7 @@ export function routeLists () {
  * routes添加
  * @param {*} query
  */
-export function add (query) {
+export function routesAdd (query) {
   return fetch({
     url: '/kong/routes/add',
     method: 'post',
@@ -27,7 +27,7 @@ export function add (query) {
  * routes修改
  * @param {*} query
  */
-export function updated (query) {
+export function routesUpdated (query) {
   return fetch({
     url: '/kong/routes/upload',
     method: 'post',
@@ -39,9 +39,21 @@ export function updated (query) {
  * routes查询
  * @param {*} query
  */
-export function info (query) {
+export function routesInfo (query) {
   return fetch({
     url: '/kong/routes/info',
+    method: 'get',
+    params: query
+  })
+}
+
+/**
+ * routes删除
+ * @param {*} query
+ */
+export function routesDelete (query) {
+  return fetch({
+    url: '/kong/routes/delete',
     method: 'get',
     params: query
   })
