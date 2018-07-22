@@ -1,13 +1,35 @@
 import fetch from '@/common/js/fetch'
 
 /**
- * 插件列表
+ * 插件添加
  */
 export function pluginsAdd (query) {
   return fetch({
     url: '/kong/plugins/add',
     method: 'post',
     data: query
+  })
+}
+
+/**
+ * 插件修改
+ */
+export function pluginsUpload (query) {
+  return fetch({
+    url: '/kong/plugins/upload',
+    method: 'post',
+    data: query
+  })
+}
+
+/**
+ * 插件详情
+ */
+export function pluginsInfo (query) {
+  return fetch({
+    url: '/kong/plugins/info',
+    method: 'get',
+    params: query
   })
 }
 

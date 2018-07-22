@@ -64,8 +64,10 @@ export default {
       })
     },
     // 编辑插件
-    handleEdit () {
-
+    handleEdit (id) {
+      this.$router.push({
+        path: `/kong/plugins/edit/${id}`
+      })
     },
     // 删除插件
     handleDelete (id) {
