@@ -192,6 +192,18 @@ export default {
       this.ruleForm.name = info.name
       this.ruleForm.strip_uri = info.strip_uri
       this.ruleForm.uris = info.uris[0]
+      this.ruleForm.hosts = info.hosts[0]
+      this.ruleForm.upstream_url = info.upstream_url
+      this.ruleForm.retries = info.retries
+      this.ruleForm.preserve_host = info.preserve_host
+      this.ruleForm.upstream_connect_timeout = info.upstream_connect_timeout
+      this.ruleForm.upstream_send_timeout = info.upstream_send_timeout
+      this.ruleForm.upstream_read_timeout = info.upstream_read_timeout
+      this.ruleForm.https_only = info.https_only
+      this.ruleForm.http_if_terminated = info.http_if_terminated
+      info.methods.forEach((value, index, array) => {
+        this.ruleForm.methods.push(value)
+      })
     },
     // 修改
     async request () {
