@@ -10,6 +10,8 @@
       </el-row>
 
       <el-table :data="routesData.data" border style="width: 100%; margin-top: 30px;">
+        <el-table-column prop="service.id" label="服务id"></el-table-column>
+
         <el-table-column label="发送方式">
           <template slot-scope="scope">
             <span v-for="(item,index) in scope.row.methods" :key="index">{{item}}
@@ -24,7 +26,7 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="service.id" label="服务id"></el-table-column>
+
         <el-table-column prop="hosts" label="域"></el-table-column>
         <el-table-column prop="created_at" label="创建时间"></el-table-column>
         <el-table-column label="操作">
