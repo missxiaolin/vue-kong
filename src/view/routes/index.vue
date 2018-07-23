@@ -84,7 +84,7 @@ export default {
       })
     },
     // 删除
-    handleDelete (id) {
+    async handleDelete (id) {
       let self = this
       let param = {
         'id': id
@@ -94,14 +94,15 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        let res = routesDelete(param)
-        if (res.data.code == ERR_OK) {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          })
-          this.routesLists()
-        }
+        routesDelete(param).then(res => {
+          if (res.data.code == ERR_OK) {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            self.routesLists()
+          }
+        })
       })
     }
   }
