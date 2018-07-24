@@ -26,6 +26,7 @@
       </el-row>
 
       <el-table :data="consumerData.data" border style="width: 100%; margin-top: 30px;">
+        <el-table-column prop="id" label="自增Id" width="300"></el-table-column>
         <el-table-column prop="username" label="消费者名称" width="300"></el-table-column>
         <el-table-column prop="custom_id" label="ID"></el-table-column>
         <el-table-column prop="created_at" label="创建时间"></el-table-column>
