@@ -5,10 +5,6 @@
         <el-input name="name" type="text" v-model="ruleForm.name" placeholder="api名称"></el-input>
       </el-form-item>
 
-      <el-form-item label="域名：" prop="hosts">
-        <el-input name="hosts" type="text" v-model="ruleForm.hosts" placeholder="域名"></el-input>
-      </el-form-item>
-
       <el-form-item label="发送方式：" prop="methods">
         <el-checkbox-group v-model="ruleForm.methods">
           <el-checkbox label="POST"></el-checkbox>
@@ -95,11 +91,6 @@ export default {
           message: '请输入',
           trigger: 'blur'
         },
-        hosts: {
-          required: true,
-          message: '请输入域',
-          trigger: 'blur'
-        },
         methods: {
           required: true,
           message: '请输入发送方式',
@@ -154,7 +145,7 @@ export default {
       ruleForm: {
         'name': '',
         'strip_uri': true,
-        'hosts': '',
+        'hosts': null,
         'methods': [],
         'http_if_terminated': false,
         'https_only': false,
