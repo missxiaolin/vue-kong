@@ -90,7 +90,6 @@ export default {
         this.$router.push({
           path: '/user'
         })
-        this.loading = false
       } else {
         Message(response.data.message)
       }

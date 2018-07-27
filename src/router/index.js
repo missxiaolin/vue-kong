@@ -80,8 +80,13 @@ export const asyncRouterMap = [
         hidden: true
       }, {
         path: 'route',
-        name: '路由',
+        name: '权限列表',
         component: _import('router/routes')
+      }, {
+        path: 'route/add/:id',
+        name: '权限添加',
+        component: _import('router/add'),
+        hidden: true
       }
     ]
   }, {

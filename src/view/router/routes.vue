@@ -1,9 +1,13 @@
 <template>
     <div class="app-container">
+        <div class="ibox-title">
+            <h3>路由列表</h3>
+        </div>
+
         <div :className="'sub-navbar'">
             <template>
-                <el-button style="margin-left: 10px;" type="success" @click="reloadRoutes()">刷新路由
-                </el-button>
+                <el-button style="margin-left: 10px;" type="success" @click="reloadRoutes()">刷新路由</el-button>
+                <el-button type="primary" @click="addRoute(0)">新建权限</el-button>
             </template>
         </div>
 
@@ -34,6 +38,12 @@
                     <template slot-scope="scope">
                         <i class="el-icon-time"></i>
                         <span>{{scope.row.created_at}}</span>
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="操作">
+                    <template slot-scope="scope">
+                        <el-button size="mini" @click="addRoute(scope.row.id)">编辑</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -102,6 +112,12 @@ export default {
     async reloadRoutes () {
       let res = await reloadRoutes()
       console.log(res)
+    },
+    //
+    addRoute (id) {
+      this.$router.push({
+        path: `/user/route/add/${id}`
+      })
     }
   }
 }
