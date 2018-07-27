@@ -78,6 +78,10 @@ export const asyncRouterMap = [
         component: _import('user/edit'),
         name: '用户编辑',
         hidden: true
+      }, {
+        path: 'route',
+        name: '路由',
+        component: _import('router/routes')
       }
     ]
   }, {
