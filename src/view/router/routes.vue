@@ -33,7 +33,7 @@
                 <el-table-column align="center" prop="created_at" label="创建时间" width="200">
                     <template slot-scope="scope">
                         <i class="el-icon-time"></i>
-                        <span>{{scope.row.createdAt}}</span>
+                        <span>{{scope.row.created_at}}</span>
                     </template>
                 </el-table-column>
             </el-table>
@@ -71,6 +71,13 @@ export default {
       }
     }
   },
+  // 过滤
+  filters: {
+    statusFilter (status) {
+      const statusMap = ['success', 'danger']
+      return statusMap[status]
+    }
+  },
   created () {
     this.fetchData()
   },
@@ -79,7 +86,7 @@ export default {
     async fetchData () {
       let res = await getRoutes(this.searchForm)
       if (res.data.code == ERR_OK) {
-        this.list = res.data.data.item
+        this.list = res.data.data.items
         this.total = res.data.data.total
         this.listLoading = false
       }
