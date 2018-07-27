@@ -54,7 +54,7 @@
 
 <script>
 
-import { getRoutes } from 'api/route'
+import { getRoutes, reloadRoutes } from 'api/route'
 import { ERR_OK } from '@/api/config'
 
 export default {
@@ -97,6 +97,11 @@ export default {
         page: currentPage
       })
       this.fetchData()
+    },
+    // 刷新路由到缓存
+    async reloadRoutes () {
+      let res = await reloadRoutes()
+      console.log(res)
     }
   }
 }
