@@ -44,6 +44,7 @@
                 <el-table-column label="操作">
                     <template slot-scope="scope">
                         <el-button size="mini" @click="addRoute(scope.row.id)">编辑</el-button>
+                        <el-button size="mini" type="danger" @click="del(scope.row.id)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -64,7 +65,7 @@
 
 <script>
 
-import { getRoutes, reloadRoutes } from 'api/route'
+import { getRoutes, reloadRoutes, delRoute } from 'api/route'
 import { ERR_OK } from '@/api/config'
 
 export default {
@@ -113,10 +114,32 @@ export default {
       let res = await reloadRoutes()
       console.log(res)
     },
-    //
+    // 添加
     addRoute (id) {
       this.$router.push({
         path: `/user/route/add/${id}`
+      })
+    },
+    del (id) {
+      let self = this
+      let param = {
+        'id': id
+      }
+      this.$confirm('此操作将永久删除权限, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        delRoute(param).then(res => {
+          console.log(res)
+          if (res.data.code == ERR_OK) {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            self.fetchData()
+          }
+        })
       })
     }
   }

@@ -25,6 +25,18 @@ export function infoRoute (data) {
 }
 
 /**
+ * 规则删除
+ * @param {*} data
+ */
+export function delRoute (data) {
+  return fetch({
+    url: '/kong/route/delete',
+    method: 'post',
+    params: data
+  })
+}
+
+/**
  * 路由列表
  * @param {*} data
  */
