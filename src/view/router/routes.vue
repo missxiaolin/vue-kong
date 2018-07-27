@@ -93,10 +93,10 @@ export default {
     },
     // 分页
     handleCurrentChange (currentPage) {
-      let params = Object.assign(this.searchForm, {
+      Object.assign(this.searchForm, {
         page: currentPage
       })
-      this.userLists(params)
+      this.fetchData()
     }
   }
 }
