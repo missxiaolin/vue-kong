@@ -162,9 +162,7 @@ export default {
     },
     // 搜索
     async searchRoleRouter () {
-      console.log(this.router.form)
       let res = await getRouters(this.router.form)
-      console.log(res)
 
       if (res.data.code == ERR_OK) {
         this.router.list = res.data.data.items
