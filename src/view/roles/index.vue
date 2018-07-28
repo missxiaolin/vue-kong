@@ -2,8 +2,8 @@
     <div class="app-container">
         <div :className="'sub-navbar'">
             <template>
-                <el-button style="margin-left: 10px;" type="success" @click="reloadRoutes()">刷新权限
-                </el-button>
+                <el-button style="margin-left: 10px;" type="success" @click="reloadRoutes()">刷新权限</el-button>
+                <el-button style="margin-left: 10px;" type="primary" @click="add(0)">新建角色</el-button>
             </template>
         </div>
 
@@ -157,6 +157,12 @@ export default {
     handleDialogRouterPageChange (val) {
       this.router.pageIndex = val
       this.searchRoleRouter()
+    },
+    // 添加
+    add (id) {
+      this.$router.push({
+        path: `/user/role/add/${id}`
+      })
     }
   }
 }

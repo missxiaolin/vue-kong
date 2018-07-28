@@ -114,6 +114,7 @@ export default {
         path: `/user/route/add/${id}`
       })
     },
+    // 删除
     del (id) {
       let self = this
       let param = {

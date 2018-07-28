@@ -1,5 +1,13 @@
 import fetch from '@/common/js/fetch'
 
+export function addRoles (data) {
+  return fetch({
+    url: '/kong/role/add',
+    method: 'post',
+    data: data
+  })
+}
+
 /**
  * 角色列表
  * @param {*} data
