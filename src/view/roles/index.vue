@@ -54,10 +54,7 @@
 
         <el-dialog title="配置路由" :visible.sync="dialogTableVisible" :modal-append-to-body="false">
             <el-input style="width: 200px;" class="filter-item" placeholder="路由名"
-                      v-model="router.searchText"></el-input>
-            <el-select style="width: 140px" class="filter-item" v-model="router.form.searchType">
-                <el-option v-for="v in router.searchTypes" :label='v.label' :value="v.key" :key='v.key'></el-option>
-            </el-select>
+                      v-model="router.form.searchText"></el-input>
             <el-button class="filter-item" type="primary" icon="el-icon-search" @click="searchRoleRouter">搜索
             </el-button>
 
@@ -122,13 +119,8 @@ export default {
       router: {
         list: [],
         total: 0,
-        searchTypes: [
-          { label: '全部', key: 0 },
-          { label: '已绑定路由', key: 1 }
-        ],
         form: {
           size: 20,
-          searchType: 0,
           roleId: 0,
           searchText: '',
           page: 1
@@ -165,12 +157,12 @@ export default {
     setRoleId (id) {
       this.router.form.roleId = id
       this.router.form.searchText = ''
-      this.router.form.searchType = 0
       this.router.form.page = 1
       this.searchRoleRouter()
     },
     // 搜索
     async searchRoleRouter () {
+      console.log(this.router.form)
       let res = await getRouters(this.router.form)
       console.log(res)
 
