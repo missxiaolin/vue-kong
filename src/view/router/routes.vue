@@ -6,7 +6,6 @@
 
         <div :className="'sub-navbar'">
             <template>
-                <el-button style="margin-left: 10px;" type="success" @click="reloadRoutes()">刷新路由</el-button>
                 <el-button type="primary" @click="addRoute(0)">新建权限</el-button>
             </template>
         </div>
@@ -65,7 +64,7 @@
 
 <script>
 
-import { getRoutes, reloadRoutes, delRoute } from 'api/route'
+import { getRoutes, delRoute } from 'api/route'
 import { ERR_OK } from '@/api/config'
 
 export default {
@@ -108,11 +107,6 @@ export default {
         page: currentPage
       })
       this.fetchData()
-    },
-    // 刷新路由到缓存
-    async reloadRoutes () {
-      let res = await reloadRoutes()
-      console.log(res)
     },
     // 添加
     addRoute (id) {

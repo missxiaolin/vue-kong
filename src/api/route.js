@@ -47,14 +47,3 @@ export function getRoutes (data) {
     params: data
   })
 }
-
-/**
- * 刷新路由缓存
- */
-export function reloadRoutes () {
-  return fetch({
-    url: '/kong/route/reload',
-    method: 'get',
-    params: {}
-  })
-}

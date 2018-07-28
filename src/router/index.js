@@ -79,13 +79,22 @@ export const asyncRouterMap = [
         name: '用户编辑',
         hidden: true
       }, {
-        path: 'route',
+        path: 'route/list',
         name: '权限列表',
         component: _import('router/routes')
       }, {
         path: 'route/add/:id',
         name: '权限添加',
         component: _import('router/add'),
+        hidden: true
+      }, {
+        path: 'role/list',
+        name: '角色管理',
+        component: _import('roles/index')
+      }, {
+        path: 'role/add/:id',
+        name: '角色添加',
+        component: _import('roles/add'),
         hidden: true
       }
     ]

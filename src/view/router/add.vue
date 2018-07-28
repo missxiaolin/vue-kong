@@ -85,7 +85,7 @@ export default {
       let res = await addRoute(this.ruleForm)
       if (res.data.code == ERR_OK) {
         this.$router.push({
-          path: '/user/route'
+          path: '/user/route/list'
         })
       }
     },
