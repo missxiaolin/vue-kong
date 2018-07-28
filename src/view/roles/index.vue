@@ -55,13 +55,13 @@
         <el-dialog title="配置路由" :visible.sync="dialogTableVisible" :modal-append-to-body="false">
             <el-input style="width: 200px;" class="filter-item" placeholder="路由名"
                       v-model="router.searchText"></el-input>
-            <el-select style="width: 140px" class="filter-item" v-model="router.searchType">
+            <el-select style="width: 140px" class="filter-item" v-model="router.form.searchType">
                 <el-option v-for="v in router.searchTypes" :label='v.label' :value="v.key" :key='v.key'></el-option>
             </el-select>
             <el-button class="filter-item" type="primary" icon="el-icon-search" @click="searchRoleRouter">搜索
             </el-button>
 
-            <el-table :data="router.list" border fit highlight-current-row>
+            <el-table :data="router.list" border fit highlight-current-row style="margin-top:10px;">
                 <el-table-column align="center" label='ID' width="90">
                     <template slot-scope="scope">
                         {{scope.row.id}}
@@ -88,9 +88,13 @@
                 </el-table-column>
             </el-table>
             <div class="pagination-container" :hidden="hideDialogPagination">
-                <el-pagination background @current-change="handleDialogRouterPageChange"
-                               :current-page.sync="router.pageIndex" :page-size="router.pageSize"
-                               layout="total, prev, pager, next" :total="router.total">
+                <el-pagination
+                background
+                layout="prev, pager, next"
+                @current-change="handleDialogRouterPageChange"
+                :current-page="page"
+                :page-size="router.form.size"
+                :total="router.total">
                 </el-pagination>
             </div>
         </el-dialog>
@@ -98,7 +102,7 @@
 </template>
 
 <script>
-import { getRoles, reloadRole, delRoles } from 'api/roles'
+import { getRoles, reloadRole, delRoles, getRouters } from 'api/roles'
 import { ERR_OK } from '@/api/config'
 
 export default {
@@ -116,7 +120,19 @@ export default {
       dialogTableVisible: false,
       hideDialogPagination: false,
       router: {
-        list: []
+        list: [],
+        total: 0,
+        searchTypes: [
+          { label: '全部', key: 0 },
+          { label: '已绑定路由', key: 1 }
+        ],
+        form: {
+          size: 20,
+          searchType: 0,
+          roleId: 0,
+          searchText: '',
+          page: 1
+        }
       }
     }
   },
@@ -145,14 +161,29 @@ export default {
       })
       this.fetchData()
     },
+    // 搜索
     setRoleId (id) {
+      this.router.form.roleId = id
+      this.router.form.searchText = ''
+      this.router.form.searchType = 0
+      this.router.form.page = 1
+      this.searchRoleRouter()
+    },
+    // 搜索
+    async searchRoleRouter () {
+      let res = await getRouters(this.router.form)
+      console.log(res)
+
+      if (res.data.code == ERR_OK) {
+        this.router.list = res.data.data.items
+        this.router.total = res.data.data.total
+        this.listLoading = false
+      }
       this.dialogTableVisible = true
     },
-    searchRoleRouter () {
-
-    },
+    // 分页
     handleDialogRouterPageChange (val) {
-      this.router.pageIndex = val
+      this.router.form.page = val
       this.searchRoleRouter()
     },
     // 添加

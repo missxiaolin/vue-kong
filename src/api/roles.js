@@ -49,6 +49,18 @@ export function getRoles (data) {
 }
 
 /**
+ * 搜索
+ * @param {*} params
+ */
+export function getRouters (params) {
+  return fetch({
+    url: '/kong/role/routers',
+    method: 'post',
+    data: params
+  })
+}
+
+/**
  * 跟新缓存
  * @param {*} data
  */
