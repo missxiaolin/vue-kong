@@ -12,9 +12,25 @@ export function addRoles (data) {
   })
 }
 
+/**
+ * 详情
+ * @param {*} data
+ */
 export function infoRoles (data) {
   return fetch({
     url: '/kong/role/info',
+    method: 'get',
+    params: data
+  })
+}
+
+/**
+ * 删除
+ * @param {*} data
+ */
+export function delRoles (data) {
+  return fetch({
+    url: '/kong/role/delete',
     method: 'get',
     params: data
   })

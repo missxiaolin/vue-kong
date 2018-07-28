@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import { getRoles, reloadRole } from 'api/roles'
+import { getRoles, reloadRole, delRoles } from 'api/roles'
 import { ERR_OK } from '@/api/config'
 
 export default {
@@ -146,11 +146,6 @@ export default {
       this.fetchData()
     },
     setRoleId (id) {
-    //   this.router.roleId = id
-    //   this.router.pageIndex = 1
-    //   this.router.searchText = ''
-    //   this.router.searchType = 0
-    //   this.searchRoleRouter()
       this.dialogTableVisible = true
     },
     searchRoleRouter () {
@@ -167,8 +162,27 @@ export default {
       })
     },
     // 删除角色
-    delRole () {
-
+    delRole (id) {
+      let self = this
+      let param = {
+        'id': id
+      }
+      this.$confirm('此操作将永久删除角色, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        delRoles(param).then(res => {
+          console.log(res)
+          if (res.data.code == ERR_OK) {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            self.fetchData()
+          }
+        })
+      })
     }
   }
 }
