@@ -10,7 +10,7 @@
         <div class="routes-main-container" style="margin-top:30px;">
             <el-table :data="list" v-loading.body="listLoading" element-loading-text="Loading" border fit
                       highlight-current-row>
-                <el-table-column align="center" label='ID' width="95">
+                <el-table-column align="center" label='ID'>
                     <template slot-scope="scope">
                         {{scope.row.id}}
                     </template>
@@ -31,8 +31,10 @@
                         <span>{{scope.row.created_at}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column align="center" label="操作" width="200">
+                <el-table-column align="center" label="操作">
                     <template slot-scope="scope">
+                        <el-button size="mini" @click="add(scope.row.id)">编辑</el-button>
+                        <el-button size="mini" type="danger" @click="delRole(scope.row.id)">删除</el-button>
                         <el-button type="primary" size="mini" @click="setRoleId(scope.row.id)">配置路由</el-button>
                     </template>
                 </el-table-column>
@@ -163,6 +165,10 @@ export default {
       this.$router.push({
         path: `/user/role/add/${id}`
       })
+    },
+    // 删除角色
+    delRole () {
+
     }
   }
 }

@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { addRoles } from 'api/roles'
+import { addRoles, infoRoles } from 'api/roles'
 import { ERR_OK } from '@/api/config'
 
 export default {
@@ -45,9 +45,25 @@ export default {
     }
   },
   created () {
-
+    if (this.ruleForm.id != 0) {
+      this.info()
+    }
   },
   methods: {
+    // 获取详情
+    async info () {
+      let params = {
+        id: this.ruleForm.id
+      }
+      let res = await infoRoles(params)
+      console.log(res)
+      if (res.data.code != ERR_OK) {
+        return
+      }
+      let info = res.data.data
+      this.ruleForm.roleName = info.role_name
+      this.ruleForm.roleDesc = info.role_desc
+    },
     // 验证
     onSubmit (formName) {
       let self = this

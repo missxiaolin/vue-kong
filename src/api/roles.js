@@ -1,10 +1,22 @@
 import fetch from '@/common/js/fetch'
 
+/**
+ * 添加
+ * @param {*} data
+ */
 export function addRoles (data) {
   return fetch({
     url: '/kong/role/add',
     method: 'post',
     data: data
+  })
+}
+
+export function infoRoles (data) {
+  return fetch({
+    url: '/kong/role/info',
+    method: 'get',
+    params: data
   })
 }
 
