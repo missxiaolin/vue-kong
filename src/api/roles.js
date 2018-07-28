@@ -61,6 +61,18 @@ export function getRouters (params) {
 }
 
 /**
+ * 绑定路由
+ * @param {*} params
+ */
+export function upRouter (params) {
+  return fetch({
+    url: '/kong/role/routers/update',
+    method: 'post',
+    data: params
+  })
+}
+
+/**
  * 跟新缓存
  * @param {*} data
  */

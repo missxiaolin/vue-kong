@@ -102,7 +102,7 @@
 </template>
 
 <script>
-import { getRoles, reloadRole, delRoles, getRouters } from 'api/roles'
+import { getRoles, reloadRole, delRoles, getRouters, upRouter } from 'api/roles'
 import { ERR_OK } from '@/api/config'
 
 export default {
@@ -185,6 +185,16 @@ export default {
     handleDialogRouterPageChange (val) {
       this.router.form.page = val
       this.searchRoleRouter()
+    },
+    async updateRouter (routerId) {
+      const params = {
+        roleId: this.router.form.roleId,
+        routerId: routerId
+      }
+      let res = await upRouter(params)
+      if (res.data.code == ERR_OK) {
+        this.searchRoleRouter()
+      }
     },
     // 添加
     add (id) {
