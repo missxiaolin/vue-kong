@@ -25,6 +25,18 @@ export function userRoles (query) {
 }
 
 /**
+ * 绑定角色
+ * @param {*} query
+ */
+export function userUpdateRoles (query) {
+  return fetch({
+    url: '/kong/user/update/roles',
+    method: 'post',
+    data: query
+  })
+}
+
+/**
  * 用户编辑
  * @param {*} query
  */

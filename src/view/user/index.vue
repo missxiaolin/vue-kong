@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import { userLists, userStatus, userRoles } from 'api/user'
+import { userLists, userStatus, userRoles, userUpdateRoles } from 'api/user'
 import { ERR_OK } from '@/api/config'
 import { Message } from 'element-ui'
 
@@ -224,8 +224,16 @@ export default {
       this.role.form.page = val
       this.searchUserRoles()
     },
-    updateRole () {
-
+    // 绑定
+    async updateRole (roleId) {
+      let params = {
+        userId: this.role.form.userId,
+        roleId: roleId
+      }
+      let res = await userUpdateRoles(params)
+      if (res.data.code == ERR_OK) {
+        this.searchUserRoles()
+      }
     }
   }
 }
