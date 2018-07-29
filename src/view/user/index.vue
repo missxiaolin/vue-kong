@@ -35,14 +35,14 @@
         <el-button type="primary" @click="handleEdit(0)">新建用户</el-button>
       </el-row>
 
-      <el-table :data="userData.items" border style="width: 100%; margin-top: 30px;">
-        <el-table-column prop="name" label="姓名" width="300"></el-table-column>
+      <el-table :data="userData.items" border style="min-width: 100%; margin-top: 30px;">
+        <el-table-column prop="name" label="姓名"></el-table-column>
         <el-table-column prop="mobile" label="手机号"></el-table-column>
         <el-table-column prop="status" label="状态" :formatter="stateFormat"></el-table-column>
         <el-table-column prop="created_at" label="创建时间"></el-table-column>
-        <el-table-column prop="updated_at" label="结束时间"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
+            <el-button type="success" size="mini" @click="setRole(scope.row.id)">设置角色</el-button>
             <el-button size="mini" @click="handleEdit(scope.row.id)">编辑</el-button>
             <el-button size="mini" v-show="scope.row.status==0" type="success" @click="handleDisable(scope.$index, scope.row.id)">正常</el-button>
             <el-button size="mini" v-show="scope.row.status==1" type="danger" @click="handleDisable(scope.$index, scope.row.id)">禁用</el-button>
@@ -59,12 +59,51 @@
           :total="total">
         </el-pagination>
       </el-row>
+
+      <el-dialog title="设置角色" :visible.sync="dialogTableVisible" :modal-append-to-body="false">
+            <el-table :data="role.list" border fit highlight-current-row>
+                <el-table-column align="center" label='ID' width="90">
+                    <template slot-scope="scope">
+                        {{scope.row.id}}
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label='角色名' width="120">
+                    <template slot-scope="scope">
+                        {{scope.row.role_name}}
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label='角色介绍'>
+                    <template slot-scope="scope">
+                        {{scope.row.role_desc}}
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label='操作' width="120">
+                    <template slot-scope="scope">
+                        <el-button v-if="scope.row.bound == true" type="danger" size="mini"
+                                   @click="updateRole(scope.row.id)">解绑角色
+                        </el-button>
+                        <el-button v-else type="primary" size="mini" @click="updateRole(scope.row.id)">绑定角色
+                        </el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <div class="pagination-container">
+                <el-pagination
+                  background
+                  layout="prev, pager, next"
+                  @current-change="handleDialogRolesPageChange"
+                  :current-page="role.form.page"
+                  :page-size="role.form.size"
+                  :total="role.total">
+                </el-pagination>
+            </div>
+        </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
-import { userLists, userStatus } from 'api/user'
+import { userLists, userStatus, userRoles } from 'api/user'
 import { ERR_OK } from '@/api/config'
 import { Message } from 'element-ui'
 
@@ -83,7 +122,17 @@ export default {
       },
       page: 1,
       total: 0, // table数据总条数
-      pagesize: 10
+      pagesize: 10,
+      dialogTableVisible: false,
+      role: {
+        list: [],
+        total: 0,
+        form: {
+          page: 1,
+          size: 10,
+          userId: 0
+        }
+      }
     }
   },
   created () {
@@ -148,12 +197,44 @@ export default {
         Message(response.data.message)
       }
     },
+    // 分页
     handleCurrentChange: function (currentPage) {
       let params = Object.assign(this.searchForm, {
         page: currentPage
       })
       this.userLists(params)
+    },
+    // 设置角色
+    setRole (id) {
+      this.role.form.userId = id
+
+      this.searchUserRoles()
+    },
+    // 角色搜索
+    async searchUserRoles () {
+      let res = await userRoles(this.role.form)
+      if (res.data.code == ERR_OK) {
+        this.role.list = res.data.data.items
+        this.role.total = res.data.data.total
+      }
+      this.dialogTableVisible = true
+    },
+    // 角色分页
+    handleDialogRolesPageChange (val) {
+      this.role.form.page = val
+      this.searchUserRoles()
+    },
+    updateRole () {
+
     }
   }
 }
 </script>
+
+<style scoped>
+.ibox-content {
+  width: 100%;
+  overflow: hidden;
+  overflow-x: auto;
+}
+</style>

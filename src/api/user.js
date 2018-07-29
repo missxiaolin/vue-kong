@@ -13,6 +13,18 @@ export function userLists (query) {
 }
 
 /**
+ * 用户角色列表
+ * @param {*} query
+ */
+export function userRoles (query) {
+  return fetch({
+    url: '/kong/user/roles',
+    method: 'get',
+    params: query
+  })
+}
+
+/**
  * 用户编辑
  * @param {*} query
  */
