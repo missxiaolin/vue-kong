@@ -13,6 +13,18 @@ export function addRoute (data) {
 }
 
 /**
+ * 搜索
+ * @param {*} data
+ */
+export function routeSearch (data) {
+  return fetch({
+    url: '/kong/route/search',
+    method: 'post',
+    data: data
+  })
+}
+
+/**
  * 规则详情
  * @param {*} data
  */

@@ -15,25 +15,25 @@
             <el-form-item label="上级资源名称：">
               <template v-if="ruleForm.pid != 0">
                 <el-popover ref="searchPostPopover" placement="bottom-start" width="360" v-model="resPidVisible">
-                    <el-input placeholder="请输入上级资源名称" :autofocus='true' size="small">
+                    <el-input placeholder="请输入上级资源名称" :autofocus='true' size="small" v-model="searchForm.name">
                         <el-button slot="append" icon="el-icon-search" @click="handleGetResPid"></el-button>
                     </el-input>
-                    <!-- <div class="search-group" v-if="resPidList.length > 0"> -->
-                        <!-- <dl v-for="(item ,index) in resPidList" :key="index" @click="chooseResPid(item)"> -->
-                            <!-- <dd>资源名称：{{item.resName}}</dd> -->
-                        <!-- </dl> -->
-                    <!-- </div> -->
-                    <!-- <div class="no-data-show" v-else> -->
-                        <!-- {{resPidTipMsg}} -->
-                    <!-- </div> -->
+                    <div class="search-group" v-if="searchList.length > 0">
+                        <dl v-for="(item ,index) in searchList" :key="index" @click="chooseResPid(item)">
+                            <dd>资源名称：{{item.name}}</dd>
+                        </dl>
+                    </div>
+                    <div class="no-data-show" v-else>
+                        {{resPidTipMsg}}
+                    </div>
                 </el-popover>
-                <div  v-popover:searchPostPopover @click="resPidVisible = true;">
-                  <el-input v-model.trim="ruleForm.searchName"  size="small" placeholder="上级资源名称" readonly></el-input>
+                <div  v-popover:searchPostPopover  @click="resPidVisible = true; resPidTipMsg =''; searchForm.name ='';searchList =[]">
+                  <el-input v-model.trim="searchName"  size="small" placeholder="上级资源名称" readonly></el-input>
                 </div>
               </template>
 
               <template v-else>
-                  <el-input v-model.trim="ruleForm.searchName"  size="small" placeholder="上级资源名称信息" disabled></el-input>
+                  <el-input v-model.trim="searchName"  size="small" placeholder="上级资源名称信息" disabled></el-input>
               </template>
             </el-form-item>
 
@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { addRoute, infoRoute } from 'api/route'
+import { addRoute, infoRoute, routeSearch } from 'api/route'
 import { ERR_OK } from '@/api/config'
 
 export default {
@@ -101,6 +101,12 @@ export default {
         {resTypeDesc: '页面', resType: 1},
         {resTypeDesc: '按钮', resType: 2}
       ],
+      resPidTipMsg: '',
+      searchForm: {
+        name: '',
+        pid: 0
+      },
+      searchList: [],
       searchName: '',
       ruleForm: {
         id: this.$route.params.id,
@@ -160,9 +166,39 @@ export default {
     resetForm (formName) {
       this.$refs[formName].resetFields()
     },
-    handleGetResPid () {
-
+    // 搜索
+    async handleGetResPid () {
+      let res = await routeSearch(this.searchForm)
+      if (res.data.code != ERR_OK) {
+        return
+      }
+      this.searchList = res.data.data
+      if (this.searchList.length == 0) {
+        this.resPidTipMsg = '无搜索结果'
+      }
+    },
+    chooseResPid (item) {
+      this.ruleForm.level = item.id
+      this.searchName = item.name
+      this.resPidVisible = false
     }
   }
 }
 </script>
+
+<style>
+.no-data-show{ width: 100%; padding-top: 15px; text-align: center; color: #999}
+.search-group { max-height: 350px; margin-top: 15px; overflow-y: auto; }
+
+.search-group dl {
+    border-bottom: 1px dotted #eee;
+    padding: 10px ;
+    line-height: 24px;
+    cursor: pointer
+}
+.search-group dl:hover{ background: #F2F6FC}
+
+.search-group dl:last-child {
+    border-bottom: 0
+}
+</style>
