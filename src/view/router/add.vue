@@ -1,12 +1,65 @@
 <template>
     <div class="app-container">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="120px">
-            <el-form-item label="路由名字" prop="name">
+            <el-form-item label="资源类型：" prop="pid">
+              <el-select v-model="ruleForm.pid" size="small" :disabled="isEdit" placeholder="请选择">
+                  <el-option
+                  v-for="item in resTypeList"
+                  :key="item.resType"
+                  :label="item.resTypeDesc"
+                  :value="item.resType">
+                  </el-option>
+              </el-select>
+            </el-form-item>
+
+            <el-form-item label="上级资源名称：">
+              <template v-if="ruleForm.pid != 0">
+                <el-popover ref="searchPostPopover" placement="bottom-start" width="360" v-model="resPidVisible">
+                    <el-input placeholder="请输入上级资源名称" :autofocus='true' size="small">
+                        <el-button slot="append" icon="el-icon-search" @click="handleGetResPid"></el-button>
+                    </el-input>
+                    <!-- <div class="search-group" v-if="resPidList.length > 0"> -->
+                        <!-- <dl v-for="(item ,index) in resPidList" :key="index" @click="chooseResPid(item)"> -->
+                            <!-- <dd>资源名称：{{item.resName}}</dd> -->
+                        <!-- </dl> -->
+                    <!-- </div> -->
+                    <!-- <div class="no-data-show" v-else> -->
+                        <!-- {{resPidTipMsg}} -->
+                    <!-- </div> -->
+                </el-popover>
+                <div  v-popover:searchPostPopover @click="resPidVisible = true;">
+                  <el-input v-model.trim="ruleForm.searchName"  size="small" placeholder="上级资源名称" readonly></el-input>
+                </div>
+              </template>
+
+              <template v-else>
+                  <el-input v-model.trim="ruleForm.searchName"  size="small" placeholder="上级资源名称信息" disabled></el-input>
+              </template>
+            </el-form-item>
+
+            <el-form-item label="权限编码：" prop="code">
+                <el-input name="code" type="text" v-model="ruleForm.code" placeholder="编码"></el-input>
+            </el-form-item>
+
+            <el-form-item label="名称：" prop="name">
                 <el-input name="name" type="text" v-model="ruleForm.name" placeholder="路由名字"></el-input>
             </el-form-item>
 
-            <el-form-item label="路由规则" prop="route">
+            <el-form-item label="路由规则：" prop="route">
                 <el-input name="route" type="text" v-model="ruleForm.route" placeholder="路由规则"></el-input>
+            </el-form-item>
+
+            <el-form-item label="图标：" prop="icon">
+                <el-input name="icon" type="text" v-model="ruleForm.icon" placeholder="图标"></el-input>
+            </el-form-item>
+
+            <el-form-item label="目标地址：" prop="res_uri">
+                <el-input name="res_uri" type="text" v-model="ruleForm.res_uri" placeholder="目标地址"></el-input>
+            </el-form-item>
+
+            <el-form-item label="是否显示：" prop="is_hidden">
+              <el-radio v-model="ruleForm.is_hidden" :label="false">否</el-radio>
+              <el-radio v-model="ruleForm.is_hidden" :label="true">是</el-radio>
             </el-form-item>
 
             <el-form-item label="路由：" prop="type">
@@ -35,16 +88,30 @@ export default {
           message: '请输入路由名称',
           trigger: 'blur'
         }],
-        route: {
+        code: {
           required: true,
-          message: '请输入路由规则',
+          message: '请输入编码',
           trigger: 'blur'
         }
       },
+      isEdit: false,
+      resPidVisible: false,
+      resTypeList: [
+        {resTypeDesc: '模块', resType: 0},
+        {resTypeDesc: '页面', resType: 1},
+        {resTypeDesc: '按钮', resType: 2}
+      ],
+      searchName: '',
       ruleForm: {
         id: this.$route.params.id,
+        is_hidden: false,
+        icon: '',
         name: '',
         route: '',
+        res_uri: '',
+        pid: 0,
+        level: 0,
+        code: '',
         type: 1
       }
     }
@@ -92,6 +159,9 @@ export default {
     // 重置
     resetForm (formName) {
       this.$refs[formName].resetFields()
+    },
+    handleGetResPid () {
+
     }
   }
 }
