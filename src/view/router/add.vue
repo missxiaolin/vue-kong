@@ -142,6 +142,12 @@ export default {
       this.ruleForm.name = info.name
       this.ruleForm.route = info.route
       this.ruleForm.type = info.type
+      this.ruleForm.code = info.code
+      this.ruleForm.pid = info.pid
+      this.ruleForm.is_hidden = info.is_hidden
+      this.ruleForm.icon = info.icon
+      this.rules.res_uri = info.res_uri
+      this.rules.level = info.level
     },
     // 添加
     onSubmit (formName) {
