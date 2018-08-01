@@ -152,9 +152,24 @@ export default {
       this.ruleForm.pid = info.pid
       this.ruleForm.is_hidden = info.is_hidden
       this.ruleForm.icon = info.icon
-      this.rules.res_uri = info.res_uri
-      this.rules.level = info.level
-      this.rules.noDropdown = info.noDropdown
+      this.ruleForm.res_uri = info.res_uri
+      this.ruleForm.level = info.level
+      this.ruleForm.noDropdown = info.noDropdown
+      // 上级元素name
+      if (info.level) {
+        this.levelName(info.level)
+      }
+    },
+    async levelName (levelId) {
+      let params = {
+        id: levelId
+      }
+      let res = await infoRoute(params)
+      if (res.data.code != ERR_OK) {
+        return
+      }
+      let info = res.data.data
+      this.searchName = info.name
     },
     // 添加
     onSubmit (formName) {
