@@ -62,6 +62,11 @@
               <el-radio v-model="ruleForm.is_hidden" label="true">是</el-radio>
             </el-form-item>
 
+            <el-form-item label="列表是否显示：" prop="noDropdown">
+              <el-radio v-model="ruleForm.noDropdown" label="false">否</el-radio>
+              <el-radio v-model="ruleForm.noDropdown" label="true">是</el-radio>
+            </el-form-item>
+
             <el-form-item label="路由：" prop="type">
                 <el-radio v-model="ruleForm.type" :label="1">系统路由</el-radio>
                 <el-radio v-model="ruleForm.type" :label="0">自定义路由</el-radio>
@@ -111,6 +116,7 @@ export default {
       ruleForm: {
         id: this.$route.params.id,
         is_hidden: 'false',
+        noDropdown: 'false',
         icon: '',
         name: '',
         route: '',
@@ -148,6 +154,7 @@ export default {
       this.ruleForm.icon = info.icon
       this.rules.res_uri = info.res_uri
       this.rules.level = info.level
+      this.rules.noDropdown = info.noDropdown
     },
     // 添加
     onSubmit (formName) {
