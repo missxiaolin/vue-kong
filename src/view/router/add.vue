@@ -58,13 +58,13 @@
             </el-form-item>
 
             <el-form-item label="是否显示：" prop="is_hidden">
-              <el-radio v-model="ruleForm.is_hidden" label="0">否</el-radio>
-              <el-radio v-model="ruleForm.is_hidden" label="1">是</el-radio>
+              <el-radio v-model="ruleForm.is_hidden" :label="0">否</el-radio>
+              <el-radio v-model="ruleForm.is_hidden" :label="1">是</el-radio>
             </el-form-item>
 
             <el-form-item label="列表是否显示：" prop="noDropdown">
-              <el-radio v-model="ruleForm.noDropdown" label="0">否</el-radio>
-              <el-radio v-model="ruleForm.noDropdown" label="1">是</el-radio>
+              <el-radio v-model="ruleForm.noDropdown" :label="0">否</el-radio>
+              <el-radio v-model="ruleForm.noDropdown" :label="1">是</el-radio>
             </el-form-item>
 
             <el-form-item label="路由：" prop="type">
