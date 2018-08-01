@@ -71,3 +71,15 @@ export function userStatus (query) {
     data: query
   })
 }
+
+/**
+ * 用户禁用、开启
+ * @param {*} query
+ */
+export function userPower () {
+  return fetch({
+    url: '/kong/user/power',
+    method: 'get',
+    params: {}
+  })
+}

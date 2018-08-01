@@ -7,4 +7,4 @@ export const ERROR_TOKEN_ILLEGAL = 1000
 export const ERROR_TOKEN_EXPIRE = 1005
 
 // 权限不足
-export const ERROR_AUTHORITY = 1002
+export const ERROR_AUTHORITY = 704
