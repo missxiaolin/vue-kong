@@ -58,13 +58,13 @@
             </el-form-item>
 
             <el-form-item label="是否显示：" prop="is_hidden">
-              <el-radio v-model="ruleForm.is_hidden" label="false">否</el-radio>
-              <el-radio v-model="ruleForm.is_hidden" label="true">是</el-radio>
+              <el-radio v-model="ruleForm.is_hidden" label="0">否</el-radio>
+              <el-radio v-model="ruleForm.is_hidden" label="1">是</el-radio>
             </el-form-item>
 
             <el-form-item label="列表是否显示：" prop="noDropdown">
-              <el-radio v-model="ruleForm.noDropdown" label="false">否</el-radio>
-              <el-radio v-model="ruleForm.noDropdown" label="true">是</el-radio>
+              <el-radio v-model="ruleForm.noDropdown" label="0">否</el-radio>
+              <el-radio v-model="ruleForm.noDropdown" label="1">是</el-radio>
             </el-form-item>
 
             <el-form-item label="路由：" prop="type">
@@ -115,8 +115,8 @@ export default {
       searchName: '',
       ruleForm: {
         id: this.$route.params.id,
-        is_hidden: 'false',
-        noDropdown: 'false',
+        is_hidden: 0,
+        noDropdown: 0,
         icon: '',
         name: '',
         route: '',
