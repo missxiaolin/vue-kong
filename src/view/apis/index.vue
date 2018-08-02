@@ -51,7 +51,7 @@ export default {
     // api列表
     async apisLists () {
       let response = await apiLists()
-      let res = await btnPower()
+      let res = await btnPower(this.userPower)
       this.loading = true
       if (response.data.code == ERR_OK) {
         this.apiData = response.data.data
