@@ -32,7 +32,7 @@
       </el-form>
 
       <el-row style="margin-top: 30px;">
-        <el-button type="primary" @click="handleEdit(0)">新建用户</el-button>
+        <el-button v-show="userPower.user_add != 0" type="primary" @click="handleEdit(0)">新建用户</el-button>
       </el-row>
 
       <el-table :data="userData.items" border style="min-width: 100%; margin-top: 30px;">
@@ -42,10 +42,10 @@
         <el-table-column prop="created_at" label="创建时间"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="success" size="mini" @click="setRole(scope.row.id)">设置角色</el-button>
-            <el-button size="mini" @click="handleEdit(scope.row.id)">编辑</el-button>
-            <el-button size="mini" v-show="scope.row.status==0" type="success" @click="handleDisable(scope.$index, scope.row.id)">正常</el-button>
-            <el-button size="mini" v-show="scope.row.status==1" type="danger" @click="handleDisable(scope.$index, scope.row.id)">禁用</el-button>
+            <el-button type="success" v-show="userPower.user_update_roles != 0" size="mini" @click="setRole(scope.row.id)">设置角色</el-button>
+            <el-button size="mini" v-show="userPower.user_add != 0" @click="handleEdit(scope.row.id)">编辑</el-button>
+            <el-button size="mini" v-show="scope.row.status==0 && userPower.user_status != 0" type="success" @click="handleDisable(scope.$index, scope.row.id)">正常</el-button>
+            <el-button size="mini" v-show="scope.row.status==1 && userPower.user_status != 0" type="danger" @click="handleDisable(scope.$index, scope.row.id)">禁用</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import { userLists, userStatus, userRoles, userUpdateRoles } from 'api/user'
+import { userLists, userStatus, userRoles, userUpdateRoles, btnPower } from 'api/user'
 import { ERR_OK } from '@/api/config'
 import { Message } from 'element-ui'
 
@@ -113,6 +113,11 @@ export default {
     return {
       dateTime: '',
       userData: [],
+      userPower: {
+        'user_add': 0,
+        'user_status': 0,
+        'user_update_roles': 0
+      },
       searchForm: {
         status: '',
         mobile: '',
@@ -161,6 +166,7 @@ export default {
     // 用户列表
     async userLists () {
       let response = await userLists(this.searchForm)
+      let res = await btnPower(this.userPower)
       this.loading = true
       if (response.data.code == ERR_OK) {
         this.userData = response.data.data
@@ -168,6 +174,10 @@ export default {
         this.loading = false
       } else {
         Message(response.data.message)
+      }
+      // 权限
+      if (res.data.code == ERR_OK) {
+        this.userPower = res.data.data
       }
     },
     stateFormat (row, column) {

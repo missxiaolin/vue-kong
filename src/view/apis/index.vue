@@ -4,7 +4,7 @@
       <h3>Api 列表</h3>
     </div>
     <div class="ibox-content">
-      <el-row style="margin-top: 30px;">
+      <el-row style="margin-top: 30px;" v-show="userPower.kong_api_add != 0">
         <el-button type="primary" @click="handleAdd()">新建Api</el-button>
       </el-row>
       <el-table :data="apiData.data" border style="width: 100%; margin-top: 30px;">
@@ -17,8 +17,8 @@
         <el-table-column prop="created_at" label="创建时间"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.row.id)">编辑</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
+            <el-button size="mini" v-show="userPower.kong_api_upload != 0" @click="handleEdit(scope.row.id)">编辑</el-button>
+            <el-button size="mini" v-show="userPower.kong_api_delete != 0" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -28,6 +28,7 @@
 
 <script>
 import { apiLists, deleteApi } from 'api/apis'
+import { btnPower } from 'api/user'
 import { ERR_OK } from '@/api/config'
 import { Message } from 'element-ui'
 
@@ -35,7 +36,12 @@ export default {
   name: 'apis',
   data () {
     return {
-      apiData: []
+      apiData: [],
+      userPower: {
+        'kong_api_add': 0,
+        'kong_api_upload': 0,
+        'kong_api_delete': 0
+      }
     }
   },
   created () {
@@ -45,12 +51,17 @@ export default {
     // api列表
     async apisLists () {
       let response = await apiLists()
+      let res = await btnPower()
       this.loading = true
       if (response.data.code == ERR_OK) {
         this.apiData = response.data.data
         this.loading = false
       } else {
         Message(response.data.message)
+      }
+      // 权限
+      if (res.data.code == ERR_OK) {
+        this.userPower = res.data.data
       }
     },
     // 添加

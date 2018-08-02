@@ -73,7 +73,7 @@ export function userStatus (query) {
 }
 
 /**
- * 用户禁用、开启
+ * 列表权限
  * @param {*} query
  */
 export function userPower () {
@@ -81,5 +81,17 @@ export function userPower () {
     url: '/kong/user/power',
     method: 'get',
     params: {}
+  })
+}
+
+/**
+ * 按钮权限
+ * @param {*} query
+ */
+export function btnPower (query) {
+  return fetch({
+    url: '/kong/user/btn/power',
+    method: 'post',
+    data: query
   })
 }

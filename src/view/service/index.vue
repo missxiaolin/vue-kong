@@ -5,7 +5,7 @@
     </div>
     <div class="ibox-content">
       <el-row style="margin-top: 30px;">
-        <el-button type="primary" @click="handleAdd()">新建服务</el-button>
+        <el-button type="primary" v-show="userPower.kong_service_add != 0" @click="handleAdd()">新建服务</el-button>
       </el-row>
       <el-table :data="serviceData.data" border style="min-width: 100vw; margin-top: 30px;">
         <el-table-column prop="id" label="服务Id"></el-table-column>
@@ -18,8 +18,8 @@
         <el-table-column prop="connect_timeout" label="连接超时时间"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.row.id)">编辑</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
+            <el-button size="mini" v-show="userPower.kong_service_upload != 0" @click="handleEdit(scope.row.id)">编辑</el-button>
+            <el-button size="mini" v-show="userPower.kong_service_delete != 0" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -28,21 +28,20 @@
 </template>
 
 <script>
-import {
-  serviceLists,
-  serviceDelete
-} from 'api/service'
-import {
-  ERR_OK
-} from '@/api/config'
-import {
-  Message
-} from 'element-ui'
+import { serviceLists, serviceDelete } from 'api/service'
+import { btnPower } from 'api/user'
+import { ERR_OK } from '@/api/config'
+import { Message } from 'element-ui'
 
 export default {
   name: 'service',
   data () {
     return {
+      userPower: {
+        'kong_service_add': 0,
+        'kong_service_upload': 0,
+        'kong_service_delete': 0
+      },
       serviceData: [],
       searchForm: {
       },
@@ -71,6 +70,7 @@ export default {
     },
     async serviceLists () {
       let response = await serviceLists(this.searchForm)
+      let res = await btnPower(this.userPower)
       this.loading = true
       if (response.data.code == ERR_OK) {
         this.serviceData = response.data.data
@@ -78,6 +78,10 @@ export default {
         this.loading = false
       } else {
         Message(response.data.message)
+      }
+      // 权限
+      if (res.data.code == ERR_OK) {
+        this.userPower = res.data.data
       }
     },
     // 编辑

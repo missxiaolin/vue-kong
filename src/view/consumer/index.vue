@@ -6,7 +6,7 @@
     <div class="ibox-content">
       <el-row style="margin-top: 30px;">
         <!-- Form -->
-        <el-button type="primary" @click="popup(0)">新建消费者</el-button>
+        <el-button type="primary" v-show="userPower.kong_consumer_add != 0" @click="popup(0)">新建消费者</el-button>
 
         <el-dialog :title="title" :visible.sync="dialogFormVisible" :modal-append-to-body="false" width="30%">
           <el-form :model="ruleForm" label-position='top' :rules="rules" ref="ruleForm">
@@ -32,8 +32,8 @@
         <el-table-column prop="created_at" label="创建时间"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" @click="popup(scope.row.id,scope.row)">编辑</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
+            <el-button size="mini" v-show="userPower.kong_consumer_upload != 0" @click="popup(scope.row.id,scope.row)">编辑</el-button>
+            <el-button size="mini" v-show="userPower.kong_consumer_delete != 0" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -42,18 +42,10 @@
 </template>
 
 <script>
-import {
-  lists,
-  add,
-  updated,
-  consumerDelete
-} from 'api/consumer'
-import {
-  ERR_OK
-} from '@/api/config'
-import {
-  Message
-} from 'element-ui'
+import { lists, add, updated, consumerDelete } from 'api/consumer'
+import { btnPower } from 'api/user'
+import { ERR_OK } from '@/api/config'
+import { Message } from 'element-ui'
 
 export default {
   name: 'consumer',
@@ -61,6 +53,11 @@ export default {
     return {
       title: '',
       dialogFormVisible: false,
+      userPower: {
+        'kong_consumer_add': 0,
+        'kong_consumer_upload': 0,
+        'kong_consumer_delete': 0
+      },
       rules: {
         custom_id: {
           required: false,
@@ -88,12 +85,17 @@ export default {
     // 列表
     async consumerLists () {
       let response = await lists(this.searchForm)
+      let res = await btnPower(this.userPower)
       this.loading = true
       if (response.data.code == ERR_OK) {
         this.consumerData = response.data.data
         this.loading = false
       } else {
         Message(response.data.message)
+      }
+      // 权限
+      if (res.data.code == ERR_OK) {
+        this.userPower = res.data.data
       }
     },
     // 编辑、新增

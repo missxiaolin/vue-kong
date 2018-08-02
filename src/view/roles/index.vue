@@ -2,8 +2,8 @@
     <div class="app-container">
         <div :className="'sub-navbar'">
             <template>
-                <el-button style="margin-left: 10px;" type="success" @click="reloadRoutes()">刷新权限</el-button>
-                <el-button style="margin-left: 10px;" type="primary" @click="add(0)">新建角色</el-button>
+                <el-button v-show="userPower.user_role_reload != 0" style="margin-left: 10px;" type="success" @click="reloadRoutes()">刷新权限</el-button>
+                <el-button v-show="userPower.user_role_add != 0" style="margin-left: 10px;" type="primary" @click="add(0)">新建角色</el-button>
             </template>
         </div>
 
@@ -33,9 +33,9 @@
                 </el-table-column>
                 <el-table-column align="center" label="操作">
                     <template slot-scope="scope">
-                        <el-button size="mini" @click="add(scope.row.id)">编辑</el-button>
-                        <el-button size="mini" type="danger" @click="delRole(scope.row.id)">删除</el-button>
-                        <el-button type="primary" size="mini" @click="setRoleId(scope.row.id)">配置路由</el-button>
+                        <el-button size="mini" v-show="userPower.user_role_add != 0" @click="add(scope.row.id)">编辑</el-button>
+                        <el-button size="mini" v-show="userPower.user_role_delete != 0" type="danger" @click="delRole(scope.row.id)">删除</el-button>
+                        <el-button type="primary" v-show="userPower.user_role_routers_update != 0" size="mini" @click="setRoleId(scope.row.id)">配置路由</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -100,12 +100,19 @@
 
 <script>
 import { getRoles, reloadRole, delRoles, getRouters, upRouter } from 'api/roles'
+import { btnPower } from 'api/user'
 import { ERR_OK } from '@/api/config'
 
 export default {
   'name': 'role-lists',
   data () {
     return {
+      userPower: {
+        'user_role_reload': 0,
+        'user_role_add': 0,
+        'user_role_delete': 0,
+        'user_role_routers_update': 0
+      },
       list: [],
       listLoading: true,
       page: 1,
@@ -139,6 +146,11 @@ export default {
         this.list = res.data.data.items
         this.total = res.data.data.total
         this.listLoading = false
+      }
+      let response = await btnPower(this.userPower)
+      // 权限
+      if (response.data.code == ERR_OK) {
+        this.userPower = response.data.data
       }
     },
     // 跟新缓存

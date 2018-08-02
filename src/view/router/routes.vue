@@ -4,7 +4,7 @@
             <h3>路由列表</h3>
         </div>
 
-        <div :className="'sub-navbar'">
+        <div :className="'sub-navbar'" v-show="userPower.user_route_add != 0">
             <template>
                 <el-button type="primary" @click="addRoute(0)">新建权限</el-button>
             </template>
@@ -42,8 +42,8 @@
 
                 <el-table-column label="操作">
                     <template slot-scope="scope">
-                        <el-button size="mini" @click="addRoute(scope.row.id)">编辑</el-button>
-                        <el-button size="mini" type="danger" @click="del(scope.row.id)">删除</el-button>
+                        <el-button size="mini" v-show="userPower.user_route_add != 0" @click="addRoute(scope.row.id)">编辑</el-button>
+                        <el-button size="mini" v-show="userPower.user_route_delete != 0" type="danger" @click="del(scope.row.id)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -65,12 +65,17 @@
 <script>
 
 import { getRoutes, delRoute } from 'api/route'
+import { btnPower } from 'api/user'
 import { ERR_OK } from '@/api/config'
 
 export default {
   'name': 'route',
   data () {
     return {
+      userPower: {
+        'user_route_add': 0,
+        'user_route_delete': 0
+      },
       list: [],
       listLoading: true,
       page: 1,
@@ -95,10 +100,15 @@ export default {
     // 路由列表
     async fetchData () {
       let res = await getRoutes(this.searchForm)
+      let response = await btnPower(this.userPower)
       if (res.data.code == ERR_OK) {
         this.list = res.data.data.items
         this.total = res.data.data.total
         this.listLoading = false
+      }
+      // 权限
+      if (response.data.code == ERR_OK) {
+        this.userPower = response.data.data
       }
     },
     // 分页
