@@ -87,7 +87,7 @@ export default {
     // 编辑
     handleEdit (id) {
       this.$router.push({
-        path: `/service/edit/${id}`
+        path: `/kong/service/edit/${id}`
       })
     },
     // 服务删除
