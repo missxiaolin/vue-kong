@@ -29,3 +29,8 @@ npm test
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 # vue-kong
+
+- [后端api](https://github.com/missxiaolin/laravel-kong)
+- [效果展示](http://admin.missxiaolin.com/)
+
+测试账号：13758735533    123456
